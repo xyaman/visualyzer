@@ -4,8 +4,10 @@ Simple status bar visualizer for iOS 14
 
 # Installation
 
-The tweak it's available in my repo https://repo.xyaman.xyz
-It depends on AudioSnapshotServer (https://repo.packix.com)
+The tweak it's available on my repo https://repo.xyaman.xyz.
+
+
+> Visualyzer depends on AudioSnapshotServer, you can download it from https://repo.packix.com.
 
 # Screenshots
 
