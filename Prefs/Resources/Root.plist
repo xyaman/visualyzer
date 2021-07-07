@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Visualyzer Page 1</string>
+		</dict>
+		<dict>
+			<!-- Cell type -->
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+
+			<!-- Default value -->
+			<key>default</key>
+			<true/>
+
+			<!-- Label -->
+			<key>label</key>
+			<string>Enabled</string>
+
+			<key>key</key>
+			<string>isEnabled</string>
+
+			<!-- BundleID -->
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<!-- Type -->
+			<key>cell</key>
+			<string>PSButtonCell</string>
+
+			<!-- Label -->
+			<key>label</key>
+			<string>Respring</string>
+
+			<!-- Action -->
+			<key>action</key>
+			<string>respring:</string>
+
+		</dict>
+
+		<!-- Number of bars -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Number</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+
+			<key>default</key>
+			<integer>4</integer>
+
+			<key>min</key>	
+			<real>0</real>
+
+			<key>max</key>	
+			<real>10</real>
+
+			<key>isSegmented</key>
+			<true/>
+
+			<key>segmentCount</key>
+			<integer>10</integer>
+
+			<key>showValue</key>
+			<true/>
+
+			<key>key</key>
+			<string>number</string>
+
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>			
+		</dict>
+
+		<!-- Width of bars -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Width</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+
+			<key>default</key>
+			<real>3.6</real>
+
+			<key>min</key>	
+			<real>1</real>
+
+			<key>max</key>	
+			<real>10</real>
+
+			<key>showValue</key>
+			<true/>
+
+			<key>key</key>
+			<string>width</string>
+
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>			
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Visualyzer</string>
+</dict>
+</plist>

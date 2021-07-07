@@ -3,7 +3,7 @@ Name: Visualyzer
 Version: 0.0.1
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
-Maintainer: Diego Barría
-Author: Diego Barría
+Maintainer: Xyaman
+Author: Xyaman
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000)
+Depends: mobilesubstrate, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16)

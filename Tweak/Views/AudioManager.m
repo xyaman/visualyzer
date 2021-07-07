@@ -14,7 +14,7 @@
 	self = [super init];
 
 	// Socket initialization related
-	_sockfd = -1;
+	// _sockfd = -1;
 	_isConnected = NO;	
 	
 	// Host addr	
@@ -82,8 +82,8 @@
 		int hello = 1;
 		float dummyData[4];
 
+		float buffer[MAX_BUFFER_SIZE] __attribute__ ((aligned));
 		UInt32 bufferSize = 0;
-		float buffer[MAX_BUFFER_SIZE];
 		int bufferLength = 0; // bufferSize / sizeof(float)
 
 		while(_isConnected) {

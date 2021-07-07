@@ -14,12 +14,11 @@
 
 	// Just default, but necessary values in case user don't add them
 	self.refreshRateInSeconds = 0.7f;
-	self.barsColor = [UIColor whiteColor].CGColor;
-	self.barsSensivity = 1.1;
-	self.barsRadius = 1;
-	self.barsSpacing = 2;
-	self.barsWidth = 3.6;
-	[self setNumberOfBars: 4];
+	self.barsColor = [UIColor whiteColor];
+	self.barsSensivity = 1.1f;
+	self.barsRadius = 1.0f;
+	self.barsSpacing = 2.0f;
+	self.barsWidth = 3.6f;
 
 	self.isMusicPlaying = NO;
 
@@ -30,30 +29,18 @@
 	return self;
 }
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
-	[super traitCollectionDidChange:previousTraitCollection];
-
-
-	if(self.traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-		self.barsColor = [UIColor whiteColor].CGColor;
-	} else {
-		self.barsColor = [UIColor blackColor].CGColor;
-	}
-}
-
-
 // we need a different setter method, because we also need to create layers
 -(void) setNumberOfBars:(int)number {
 	_numberOfBars = number;
 
 	// Calculate offset to center bars
-	float leftOffset = (self.frame.size.width - (self.barsSpacing * _numberOfBars * self.barsWidth)) / 2;
+	float leftOffset = (self.frame.size.width - (self.barsSpacing + self.barsWidth) * _numberOfBars - self.barsSpacing) / 2;
 
 	for(int i = 0; i < _numberOfBars; i++) {
 		CALayer *bar = [CALayer layer];
 
 		bar.frame = CGRectMake(leftOffset + i * (self.barsWidth + self.barsSpacing), self.frame.size.height, self.barsWidth, 0);
-		bar.backgroundColor = self.barsColor;
+		bar.backgroundColor = self.barsColor.CGColor;
 		bar.cornerRadius = self.barsRadius;
 		[self.layer addSublayer:bar];
 	}
@@ -116,6 +103,7 @@
 		float heightMultiplier = octaves[i] * self.barsSensivity > 0.95 ? 0.95 : octaves[i] * self.barsSensivity;
 
 		dispatch_async(dispatch_get_main_queue(), ^{
+			bar.backgroundColor = self.barsColor.CGColor;
 			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -heightMultiplier * self.frame.size.height);
 		});
 	}

@@ -1,7 +1,6 @@
 #import "Tweak.h"
 
 %hook SBMediaController
-
 -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 {
 	%orig;
 
@@ -10,8 +9,16 @@
 	else
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsNotPlaying" object:nil];
 }
-
 %end
+
+// %hook _UIStatusBar
+// -(void) setForegroundColor:(UIColor*)color {
+
+// 	if(self.foregroundColor == color) return %orig;
+// 	%orig;
+// 	[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerForegroundChanged" object:self];
+// }
+// %end
 
 
 %hook SBBacklightController
@@ -61,8 +68,11 @@
 
 	if(!self.barsView) {
 		self.barsView = [[BarsView alloc] initWithFrame:self.frame];
+
+		[self.barsView setBarsWidth:[width floatValue]];
+		[self.barsView setNumberOfBars:[number intValue]];
+
 		[self.superview addSubview:self.barsView];
-		[self.barsView setHidden:YES];
 	}
 
 	[self setHidden:YES];
@@ -101,6 +111,17 @@
 %end
 
 %ctor {
+
+	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.xyaman.visualyzerpreferences"];
+	
+	[preferences registerBool:&isEnabled default:NO forKey:@"isEnabled"];
+	if(!isEnabled) return;
+
+	// Load all preferences
+	[preferences registerObject:&number default:@"4" forKey:@"number"]; // Number of bars/points/etc
+	[preferences registerObject:&width default:@"3.6" forKey:@"width"]; // Width of ...
+
+	
 	%init;
 	%init(ClockView);
 }
