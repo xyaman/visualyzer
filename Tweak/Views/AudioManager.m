@@ -1,10 +1,5 @@
 #import "AudioManager.h"
 
-#define SA struct sockaddr
-#define ASSPORT 44333
-#define MAX_BUFFER_SIZE 16384
-#define FFT_LENGTH 1024
-
 @interface AudioManager ()
 @end
 
@@ -14,7 +9,6 @@
 	self = [super init];
 
 	// Socket initialization related
-	// _sockfd = -1;
 	_isConnected = NO;	
 	
 	// Host addr	
@@ -51,66 +45,84 @@
 	free(_magnitudes);
 }
 
--(void) startConnection {
-
+- (void) startConnection {
 	if(_isConnected) return;
 	_isConnected = YES;
 	
-	// implement retry	
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{	
+	
+	int sockfd = -1;
 
-	// Initialize the client
-	_sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (_sockfd == -1) {
-		NSLog(@"[Visualyzer] Can't open socket");
-		_isConnected = NO;
-		return;	
-	}
+	while(_isConnected) {
 
-	// Connect client to host
-	int ok = connect(_sockfd, (SA*)&_addr, sizeof(_addr));
-	if(ok != 0) {
-		NSLog(@"[Visualyzer] Socket can't connect to host");
-		_isConnected = NO;
-		return;
-	}
+		// Create socket
+		sockfd = socket(AF_INET, SOCK_STREAM, 0);
+		if (sockfd == -1) {
+			NSLog(@"[Visualyzer] Can't create socket");
+			usleep(500000); // Half second
+			continue;
+		}
 
-	NSLog(@"[Visualyzer] Socket connected");
+		// Connect client to host
+		int ok = connect(sockfd, (SA*)&_addr, sizeof(_addr));
+		if(ok < 0) {
+			NSLog(@"[Visualyzer] Socket can't connect to host");
+			usleep(500000); // Half second
+			continue;
+		}
+
+		// Now we are connected
+		NSLog(@"[Visualyzer] Socket is not connected");
 
 
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
+    	// Buffer related
 		int hello = 1;
-		float dummyData[4];
+    	float dummyData[4]; // Sometimes socket receives a float
+    	UInt32 bufferSize = 0;
+    	int bufferLength = 0; // bufferSize / sizeof(float)
+    	float buffer[MAX_BUFFER_SIZE];
 
-		float buffer[MAX_BUFFER_SIZE] __attribute__ ((aligned));
-		UInt32 bufferSize = 0;
-		int bufferLength = 0; // bufferSize / sizeof(float)
 
-		while(_isConnected) {
-
-			// Send initial message.
-			write(_sockfd, &hello, sizeof(hello));
+    	while(_isConnected) {
+    		// Send initial message.
+			int wlen = write(sockfd, &hello, sizeof(hello));
+			if(wlen < 0) { // We've lost the connection
+				close(sockfd);
+				break; 
+			}
 
 			// Response -> data bufferSize with size of UInt32.
-			read(_sockfd, &bufferSize, sizeof(bufferSize));
+			int rlen = read(sockfd, &bufferSize, sizeof(bufferSize));
+			if(rlen < 0) { // We've lost the connection
+				close(sockfd);
+				break; 
+			}
 
 
 			// When no data is available, the host sends ONE float.
 			if(bufferSize == sizeof(float)) {
-				read(_sockfd, dummyData, bufferSize);
+				rlen = read(sockfd, dummyData, bufferSize);
+				if (rlen < 0) {
+					close(sockfd);
+					break;
+				}
 				continue;
 			}
 
 			// This shouldn't happens but sometimes happens
 			if(bufferSize > MAX_BUFFER_SIZE) {
-				float *tempBuffer = (float *)malloc(bufferSize);
-				read(_sockfd, tempBuffer, bufferSize);
-				free(tempBuffer);
-				continue;
+				close(sockfd);
+				break;
 			}
 
 			// If we are still here, it means now we have REAL data audio :)
-			read(_sockfd, buffer, bufferSize);
+			rlen = read(sockfd, buffer, bufferSize);
+
+			if(rlen < 0) {
+				close(sockfd);
+				break;
+			}
+
 			bufferLength = bufferSize / sizeof(float);
 
 			// Now we process the audio data
@@ -139,15 +151,16 @@
 			[self.delegate newAudioDataWasProcessed:_magnitudes withLength:FFT_LENGTH/2];
 
 			// Zzz
-			sleep(self.refreshRateInSeconds);
+			usleep(self.refreshRateInSeconds * 1000000);
+
+	    	}
 		}
 
-		// We need to close the connection
 
-		close(_sockfd);
-		_sockfd = -1;
-		NSLog(@"[Visualyzer] Socket connection ended");
+		// Close the socket
+		close(sockfd);
 	});
+
 }
 
 -(void) stopConnection {

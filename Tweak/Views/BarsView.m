@@ -13,7 +13,7 @@
 
 
 	// Just default, but necessary values in case user don't add them
-	self.refreshRateInSeconds = 0.7f;
+	self.refreshRateInSeconds = 0.1f;
 	self.barsColor = [UIColor whiteColor];
 	self.barsSensivity = 1.1f;
 	self.barsRadius = 1.0f;

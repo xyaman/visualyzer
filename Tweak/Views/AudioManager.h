@@ -1,12 +1,16 @@
 #import <UIKit/UIKit.h>
 #import <Accelerate/Accelerate.h>
 #import <arpa/inet.h>
-
 #import "AudioManagerDelegate.h"
+
+#define SA struct sockaddr
+#define ASSPORT 44333
+#define MAX_BUFFER_SIZE 16384
+#define FFT_LENGTH 1024
+
 
 @interface AudioManager : NSObject {
 	// Socket related
-	int _sockfd;
 	struct sockaddr_in _addr;
 	BOOL _isConnected;
 
