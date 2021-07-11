@@ -2,8 +2,8 @@ Package: com.xyaman.visualyzer
 Name: Visualyzer
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: Simple status bar visualizer for iOS 14.
 Maintainer: Xyaman
 Author: Xyaman
 Section: Tweaks
-Depends: mobilesubstrate, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16)
+Depends: mobilesubstrate, preferenceloader, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16)

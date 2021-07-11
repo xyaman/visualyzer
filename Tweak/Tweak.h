@@ -7,6 +7,11 @@
 HBPreferences *preferences = nil;
 BOOL isEnabled = NO;
 
+NSNumber *location = nil;
+int clockLocation = 1;
+int signalLocation = 2;
+int batteryLocation = 3;
+
 // View Related
 float refreshRateInSeconds = 0.7f;
 float sensivity = 1.1f;
@@ -22,15 +27,14 @@ NSString *number = nil;
 @end
 
 
-@interface _UIStatusBar : UIView
-@property(nonatomic, copy) UIColor *foregroundColor;                                                                                             //@synthesize foregroundColor=_foregroundColor - In the implementation block
-@end
-
-
+/*
+THE REASON WHY I'M USING VISUALIZER NOTIFICATION SELECTOR INSIDE THIS CLASS, IT'S BECAUSE
+WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
+*/
 
 @interface _UIStatusBarStringView : UIView
-@property(nonatomic) BOOL isClock;
 @property(nonatomic, retain) BarsView *barsView;
+@property(nonatomic) BOOL iAmTheChosen;
 
 -(void) setText:(id)arg1;
 
@@ -40,4 +44,19 @@ NSString *number = nil;
 -(void) playVisualyzer;
 -(void) pauseVisualyzer;
 
+-(void) changeVisualyzerColor:(NSNotification *)notification;
+
+@end
+
+
+@interface _UIStatusBarCellularSignalView : UIView
+@property(nonatomic, retain) BarsView *barsView;
+
+-(void) startVisualyzer;
+-(void) stopVisualyzer;
+
+-(void) playVisualyzer;
+-(void) pauseVisualyzer;
+
+-(void) changeVisualyzerColor:(NSNotification *)notification;
 @end
