@@ -18,7 +18,7 @@
 
 		<!-- Controller being loaded -->
 		<key>detail</key>
-		<string>XYARootListController</string>
+		<string>VLZRootListController</string>
 		<key>isController</key>
 		<true/>
 

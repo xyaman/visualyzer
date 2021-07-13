@@ -5,6 +5,8 @@
 	int _numberOfBars;
 }
 @property(nonatomic, retain) AudioManager *audioManager;
+
+// Style
 @property(nonatomic) float refreshRateInSeconds;
 @property(nonatomic) float barsSensivity;
 @property(nonatomic) int barsRadius;

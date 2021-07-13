@@ -7,76 +7,72 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>headerCellClass</key>
+			<string>HBPackageNameHeaderCell</string>
+			<key>condensed</key>
+			<true/>
+			<key>icon</key>
+			<string>icon.png</string>
+			<key>packageIdentifier</key>
+			<string>com.xyaman.visualyzer</string>
+			<key>footerText</key>
+			<string>Simple status bar audio visualizer for iOS 14.</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+		</dict>	
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Visualyzer Page 1</string>
+			<string>Settings</string>
 		</dict>
 		<dict>
-			<!-- Cell type -->
 			<key>cell</key>
 			<string>PSSwitchCell</string>
-
-			<!-- Default value -->
 			<key>default</key>
 			<true/>
-
-			<!-- Label -->
 			<key>label</key>
 			<string>Enabled</string>
-
 			<key>key</key>
 			<string>isEnabled</string>
-
-			<!-- BundleID -->
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Position</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSegmentCell</string>
-
 			<key>validValues</key>
 			<array>
 				<integer>1</integer>
 				<integer>2</integer>
 			</array>
-
 			<key>validTitles</key>	
 			<array>
 				<string>Time</string>
 				<string>Signal</string>
 			</array>
-
 			<key>default</key>
 			<integer>1</integer>
-
 			<key>key</key>
 			<string>location</string>
-
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
-
 		</dict>
 		<dict>
-			<!-- Type -->
 			<key>cell</key>
-			<string>PSButtonCell</string>
-
-			<!-- Label -->
+			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Respring</string>
-
-			<!-- Action -->
-			<key>action</key>
-			<string>respring:</string>
-
-		</dict>
-
-		<!-- Number of bars -->
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Number</string>
+			<string>Number of points</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -106,11 +102,10 @@
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>			
 		</dict>
-
 		<!-- Width of bars -->
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>Width</string>
 		</dict>
@@ -135,6 +130,36 @@
 
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>			
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Other options</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Respring</string>
+			<key>action</key>
+			<string>respring:</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>	
+			<key>label</key>
+			<string>Xyaman</string>
+			<key>user</key>	
+			<string>xyamanDEV</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Source Code ⚙️</string>
+			<key>url</key>
+			<string>https://github.com/xyaman/visualyzer</string>
 		</dict>
 	</array>
 	<key>title</key>
