@@ -7,3 +7,6 @@ Maintainer: Xyaman
 Author: Xyaman
 Section: Tweaks
 Depends: mobilesubstrate, preferenceloader, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16)
+Depiction: https://repo.xyaman.xyz/depictions/visualyzer/index.html
+SileoDepiction: https://repo.xyaman.xyz/depictions/visualyzer/sileo.json
+Icon: https://repo.xyaman.xyz/depictions/visualyzer/assets/icon.png
