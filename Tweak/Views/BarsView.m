@@ -7,48 +7,38 @@
 @end
 
 @implementation BarsView
+// @synthesize audioManager;
 
 -(instancetype) initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 
-
-	// Just default, but necessary values in case user don't add them
-	self.refreshRateInSeconds = 0.1f;
-	self.barsColor = [UIColor whiteColor];
-	self.barsSensivity = 1.1f;
-	self.barsRadius = 1.0f;
-	self.barsSpacing = 2.0f;
-	self.barsWidth = 3.6f;
-
 	self.isMusicPlaying = NO;
-
-	self.audioManager = [[AudioManager alloc] init];
-	self.audioManager.delegate = self;
-	self.audioManager.refreshRateInSeconds = self.refreshRateInSeconds;
 
 	return self;
 }
 
 // we need a different setter method, because we also need to create layers
--(void) setNumberOfBars:(int)number {
-	_numberOfBars = number;
-
+-(void) renderBars {
 	// Calculate offset to center bars
-	float leftOffset = (self.frame.size.width - (self.barsSpacing + self.barsWidth) * _numberOfBars - self.barsSpacing) / 2;
+	float leftOffset = (self.frame.size.width - (self.pointSpacing + self.pointWidth) * self.pointNumber - self.pointSpacing) / 2;
 
-	for(int i = 0; i < _numberOfBars; i++) {
+	for(int i = 0; i < self.pointNumber; i++) {
 		CALayer *bar = [CALayer layer];
 
-		bar.frame = CGRectMake(leftOffset + i * (self.barsWidth + self.barsSpacing), self.frame.size.height, self.barsWidth, 0);
-		bar.backgroundColor = self.barsColor.CGColor;
-		bar.cornerRadius = self.barsRadius;
+		bar.frame = CGRectMake(leftOffset + i * (self.pointWidth + self.pointSpacing), self.frame.size.height, self.pointWidth, 0);
+		bar.backgroundColor = self.pointColor.CGColor;
+		bar.cornerRadius = self.pointRadius;
 		[self.layer addSublayer:bar];
 	}
 }
 
 -(void) start {
-	self.isMusicPlaying = YES;
+	// TODO: Find a way to re render layers every time 
 
+	// We only want to create bars just ONE TIME
+	if(self.layer.sublayers.count == 0) [self renderBars];
+
+	self.isMusicPlaying = YES;
 	[self.audioManager startConnection];
 }
 
@@ -58,7 +48,7 @@
 }
 
 
--(void) play {
+-(void) resume {
 	if (!self.isMusicPlaying) return;
 
 	[self.audioManager startConnection];
@@ -78,7 +68,7 @@
 	// with max capacity 10.
 
 	float octaves[10] = {0};
-	float offset = 10 / _numberOfBars;
+	float offset = 10 / self.pointNumber;
 	float freq = 0;
 	float binWidth = MAX_HZ / length;
 
@@ -98,12 +88,12 @@
 
 
 	// Render new bars
-	for(int i = 0; i < _numberOfBars; i++) {
+	for(int i = 0; i < self.pointNumber; i++) {
 		CALayer *bar = self.layer.sublayers[i];
-		float heightMultiplier = octaves[i] * self.barsSensivity > 0.95 ? 0.95 : octaves[i] * self.barsSensivity;
+		float heightMultiplier = octaves[i] * self.pointSensivity > 0.95 ? 0.95 : octaves[i] * self.pointSensivity;
 
 		dispatch_async(dispatch_get_main_queue(), ^{
-			bar.backgroundColor = self.barsColor.CGColor;
+			bar.backgroundColor = self.pointColor.CGColor;
 			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -heightMultiplier * self.frame.size.height);
 		});
 	}

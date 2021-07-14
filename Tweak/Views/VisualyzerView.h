@@ -1,6 +1,23 @@
-@protocol VisualyzerView
+#import <UIKit/UIKit.h>
+#import "AudioManager.h"
+
+@interface VisualyzerView: UIView <AudioManagerDelegate>
+
+@property(nonatomic, retain) AudioManager *audioManager;
+
+@property(nonatomic) float refreshRateInSeconds;
+@property(nonatomic) float pointSensivity;
+@property(nonatomic) float pointRadius;
+@property(nonatomic) float pointSpacing;
+@property(nonatomic) float pointWidth;
+@property(nonatomic) int pointNumber;
+@property(nonatomic) UIColor *pointColor;
+
+
 - (void) start;
 - (void) stop;
 
-// Setters ??
+- (void) resume;
+- (void) pause;
+
 @end

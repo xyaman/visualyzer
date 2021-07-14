@@ -37,7 +37,7 @@
 %group ClockView
 %hook _UIStatusBarStringView
 %property(nonatomic) BOOL iAmTheChosen;
-%property(nonatomic, retain) BarsView *barsView;
+%property(nonatomic, retain) VisualyzerView *vizView;
 
 -(instancetype) initWithFrame:(CGRect) frame {
 	id orig = %orig;
@@ -49,7 +49,7 @@
 
 
 	// Play/pause because of screen backlight
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
 
 	return orig;
@@ -64,7 +64,7 @@
 	%orig;
 	if(!self.iAmTheChosen) return;
 
-	if(self.barsView) self.barsView.barsColor = textColor;
+	if(self.vizView) self.vizView.pointColor = textColor;
 }
 
 %new
@@ -74,21 +74,22 @@
 
 	// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 	// So bars view would never appear
-	if(!self.barsView) {
-		self.barsView = [[BarsView alloc] initWithFrame:self.frame];
+	if(!self.vizView) {
+		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
 
-		[self.barsView setBarsWidth:[width floatValue]];
-		[self.barsView setNumberOfBars:[number intValue]];
+		// Settings
+		self.vizView.pointWidth = [width floatValue];
+		self.vizView.pointNumber = [number intValue];
 
-		[self.superview addSubview:self.barsView];
+		[self.superview addSubview:self.vizView];
 	}
 
 	// Hide View
 	[self setHidden:YES];
 
 	// Show Visualyzer and start it
-	[self.barsView setHidden:NO];
-	[self.barsView start];
+	[self.vizView setHidden:NO];
+	[self.vizView start];
 
 }
 
@@ -98,9 +99,9 @@
 	if(!self.iAmTheChosen) return;
 
 	[self setHidden:NO];
-	[self.barsView setHidden:YES];
+	[self.vizView setHidden:YES];
 
-	[self.barsView stop];
+	[self.vizView stop];
 }
 
 
@@ -108,10 +109,10 @@
 
 // Used when the screen is now ON, and we want to resume
 %new
--(void) playVisualyzer {
+-(void) resumeVisualyzer {
 	if(!self.iAmTheChosen) return;
 
-	[self.barsView play];
+	[self.vizView resume];
 }
 
 
@@ -120,7 +121,7 @@
 -(void) pauseVisualyzer {
 	if(!self.iAmTheChosen) return;
 
-	[self.barsView pause];
+	[self.vizView pause];
 }
 
 %end
@@ -134,7 +135,7 @@
 %group SignalView
 %hook _UIStatusBarCellularSignalView
 
-%property(nonatomic, retain) BarsView *barsView;
+%property(nonatomic, retain) VisualyzerView *vizView;
 
 -(id) initWithFrame:(CGRect)frame {
 
@@ -146,7 +147,7 @@
 
 
 	// Play/pause because of screen backlight
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
 
 	return orig;
@@ -155,9 +156,9 @@
 -(void)_colorsDidChange {
 	%orig;
 
-	if(self.barsView) {
+	if(self.vizView) {
 		UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
-		self.barsView.barsColor = color;
+		self.vizView.pointColor = color;
 	}
 
 }
@@ -167,21 +168,21 @@
 
 	// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 	// So bars view would never appear
-	if(!self.barsView) {
-		self.barsView = [[BarsView alloc] initWithFrame:self.frame];
+	if(!self.vizView) {
+		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
 
-		[self.barsView setBarsWidth:[width floatValue]];
-		[self.barsView setNumberOfBars:[number intValue]];
+		// [self.barsView setBarsWidth:[width floatValue]];
+		// [self.barsView setNumberOfBars:[number intValue]];
 
-		[self.superview addSubview:self.barsView];
+		[self.superview addSubview:self.vizView];
 	}
 
 	// Hide View
 	[self setHidden:YES];
 
 	// Show Visualyzer and start it
-	[self.barsView setHidden:NO];
-	[self.barsView start];
+	[self.vizView setHidden:NO];
+	[self.vizView start];
 
 }
 
@@ -189,9 +190,9 @@
 -(void) stopVisualyzer {
 
 	[self setHidden:NO];
-	[self.barsView setHidden:YES];
+	[self.vizView setHidden:YES];
 
-	[self.barsView stop];
+	[self.vizView stop];
 }
 
 
@@ -199,15 +200,15 @@
 
 // Used when the screen is now ON, and we want to resume
 %new
--(void) playVisualyzer {
-	[self.barsView play];
+-(void) resumeVisualyzer {
+	[self.vizView resume];
 }
 
 
 // Used when the screen is now OFF, and we want to pause
 %new
 -(void) pauseVisualyzer {
-	[self.barsView pause];
+	[self.vizView pause];
 }
 
 %end

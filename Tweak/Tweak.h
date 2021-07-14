@@ -2,6 +2,7 @@
 #import <Cephei/HBPreferences.h>
 
 #import "Views/BarsView.h"
+#import "Views/VisualyzerView.h"
 
 // Preferences
 HBPreferences *preferences = nil;
@@ -33,7 +34,7 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 */
 
 @interface _UIStatusBarStringView : UIView
-@property(nonatomic, retain) BarsView *barsView;
+@property(nonatomic, retain) VisualyzerView *vizView;
 @property(nonatomic) BOOL iAmTheChosen;
 
 -(void) setText:(id)arg1;
@@ -50,7 +51,7 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 
 
 @interface _UIStatusBarCellularSignalView : UIView
-@property(nonatomic, retain) BarsView *barsView;
+@property(nonatomic, retain) VisualyzerView *vizView;
 
 -(void) startVisualyzer;
 -(void) stopVisualyzer;
