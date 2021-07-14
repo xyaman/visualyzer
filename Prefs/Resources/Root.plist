@@ -117,7 +117,7 @@
 			<real>3.6</real>
 
 			<key>min</key>	
-			<real>1</real>
+			<real>0</real>
 
 			<key>max</key>	
 			<real>10</real>
@@ -131,6 +131,100 @@
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>			
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Spacing</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>2.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>spacing</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Radius</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>radius</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Sensivity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>sensivity</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Updates per second</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>10.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>20</real>
+			<key>isSegmented</key>
+			<true/>
+			<key>segmentCount</key>
+			<integer>20</integer>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>updatesPerSecond</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+
+		<!-- Other options -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

@@ -38,6 +38,10 @@
 	// We only want to create bars just ONE TIME
 	if(self.layer.sublayers.count == 0) [self renderBars];
 
+	// We want to update refresh rate every time, just in case it changed;
+	self.audioManager.refreshRateInSeconds = self.refreshRateInSeconds;
+
+	// Start audio connection
 	self.isMusicPlaying = YES;
 	[self.audioManager startConnection];
 }

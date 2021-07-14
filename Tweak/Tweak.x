@@ -78,8 +78,12 @@
 		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
 
 		// Settings
-		self.vizView.pointWidth = [width floatValue];
-		self.vizView.pointNumber = [number intValue];
+		self.vizView.pointNumber = [prefNumber intValue];
+		self.vizView.pointWidth = [prefWidth floatValue];
+		self.vizView.pointSpacing = [prefSpacing floatValue];
+		self.vizView.pointRadius = [prefRadius floatValue];
+		self.vizView.pointSensivity = [prefSensivity floatValue];
+		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 		[self.superview addSubview:self.vizView];
 	}
@@ -171,8 +175,13 @@
 	if(!self.vizView) {
 		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
 
-		// [self.barsView setBarsWidth:[width floatValue]];
-		// [self.barsView setNumberOfBars:[number intValue]];
+		// Settings
+		self.vizView.pointNumber = [prefNumber intValue];
+		self.vizView.pointWidth = [prefWidth floatValue];
+		self.vizView.pointSpacing = [prefSpacing floatValue];
+		self.vizView.pointRadius = [prefRadius floatValue];
+		self.vizView.pointSensivity = [prefSensivity floatValue];
+		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 		[self.superview addSubview:self.vizView];
 	}
@@ -222,8 +231,12 @@
 	if(!isEnabled) return;
 
 	// Load all preferences
-	[preferences registerObject:&number default:@"4" forKey:@"number"]; // Number of bars/points/etc
-	[preferences registerObject:&width default:@"3.6" forKey:@"width"]; // Width of ...
+	[preferences registerObject:&prefNumber default:@"4" forKey:@"number"]; // Number of bars/points/etc
+	[preferences registerObject:&prefWidth default:@"3.6" forKey:@"width"]; // Width of ...
+	[preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
+	[preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
+	[preferences registerObject:&prefSensivity default:@"1.0" forKey:@"sensivity"];
+	[preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 
 	// Location
 	[preferences registerObject:&location default:@"1" forKey:@"location"];

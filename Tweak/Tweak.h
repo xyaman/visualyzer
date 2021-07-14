@@ -14,12 +14,12 @@ int signalLocation = 2;
 int batteryLocation = 3;
 
 // View Related
-float refreshRateInSeconds = 0.7f;
-float sensivity = 1.1f;
-float radius = 1.0f;
-float spacing = 2.0f;
-NSString *width = nil;
-NSString *number = nil;
+NSString *prefUpdatesPerSecond = nil;
+NSString *prefSensivity = nil;
+NSString *prefRadius = nil;
+NSString *prefSpacing = nil;
+NSString *prefWidth = nil;
+NSString *prefNumber = nil;
 
 
 @interface SBMediaController
