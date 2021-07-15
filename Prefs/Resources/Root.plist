@@ -229,7 +229,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other options</string>
+			<string>Miscellaneous</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -246,6 +246,14 @@
 			<string>Xyaman</string>
 			<key>user</key>	
 			<string>xyamanDEV</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Donate me ☕️</string>
+			<key>url</key>
+			<string>https://paypal.me/xyamandev</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>

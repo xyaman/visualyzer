@@ -8,8 +8,7 @@
 
 	if (self) {
 		HBAppearanceSettings *appearanceSettings = [[HBAppearanceSettings alloc] init];
-        // appearanceSettings.tableViewBackgroundColor = [UIColor colorWithWhite:242.f / 255.f alpha:1];
-		appearanceSettings.tintColor = [UIColor colorWithRed:0.18 green:0.30 blue:0.42 alpha:1.0];
+		appearanceSettings.tintColor = [UIColor colorWithRed:0.08 green:0.35 blue:0.45 alpha:1.0];
 		appearanceSettings.tableViewCellSeparatorColor = [UIColor colorWithWhite:0.0 alpha:0.0];
 
         self.hb_appearanceSettings = appearanceSettings;
