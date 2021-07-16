@@ -240,6 +240,14 @@
 			<string>respring:</string>
 		</dict>
 		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Restart mediaserverd</string>
+			<key>action</key>
+			<string>restartmsd:</string>
+		</dict>
+		<dict>
 			<key>cellClass</key>
 			<string>HBTwitterCell</string>	
 			<key>label</key>
