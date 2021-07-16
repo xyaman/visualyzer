@@ -6,7 +6,7 @@
 @property(nonatomic, retain) AudioManager *audioManager;
 
 @property(nonatomic) float refreshRateInSeconds;
-@property(nonatomic) float pointSensivity;
+@property(nonatomic) float pointSensitivity;
 @property(nonatomic) float pointRadius;
 @property(nonatomic) float pointSpacing;
 @property(nonatomic) float pointWidth;

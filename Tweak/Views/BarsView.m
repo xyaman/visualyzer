@@ -94,11 +94,11 @@
 	// Render new bars
 	for(int i = 0; i < self.pointNumber; i++) {
 		CALayer *bar = self.layer.sublayers[i];
-		float heightMultiplier = octaves[i] * self.pointSensivity > 0.95 ? 0.95 : octaves[i] * self.pointSensivity;
+		float heightMultiplier = octaves[i] * self.pointSensitivity > 0.95 ? 0.95 : octaves[i] * self.pointSensitivity;
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			bar.backgroundColor = self.pointColor.CGColor;
-			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -heightMultiplier * self.frame.size.height);
+			bar.frame = CGRectMake(bar.frame.origin.x, self.frame.size.height, bar.frame.size.width, -fabs(heightMultiplier * self.frame.size.height));
 		});
 	}
 }

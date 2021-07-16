@@ -36,12 +36,14 @@
 // When we want the visualyzer be in Clock location
 %group ClockView
 %hook _UIStatusBarStringView
-%property(nonatomic) BOOL iAmTheChosen;
+%property(nonatomic) BOOL iAmTime;
+%property(nonatomic) BOOL iAmCarrier;
 %property(nonatomic, retain) VisualyzerView *vizView;
 
 -(instancetype) initWithFrame:(CGRect) frame {
 	id orig = %orig;
-	self.iAmTheChosen = NO; // :(
+	self.iAmTime = NO; // :(
+	self.iAmCarrier = NO;
 
 	// Start/stop status
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
@@ -55,14 +57,19 @@
 	return orig;
 }
 
--(void) setText:(NSString*)text {
+-(void) setText:(NSString*)arg1 {
 	%orig;
-	self.iAmTheChosen = [text containsString:@":"];
+	if([arg1 containsString:@":"]){
+		self.iAmTime = YES;
+	} else if (prefHideCarrier && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
+		self.iAmCarrier = YES;
+	}
+
 }
 
 -(void) setTextColor:(UIColor *)textColor {
 	%orig;
-	if(!self.iAmTheChosen) return;
+	if(!self.iAmTime) return;
 
 	if(self.vizView) self.vizView.pointColor = textColor;
 }
@@ -70,42 +77,49 @@
 %new
 -(void) startVisualyzer {
 
-	if(!self.iAmTheChosen) return;
+	if(self.iAmTime) {
 
-	// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
-	// So bars view would never appear
-	if(!self.vizView) {
-		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
+		// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
+		// So bars view would never appear
+		if(!self.vizView) {
+			self.vizView = [[BarsView alloc] initWithFrame:self.frame];
 
-		// Settings
-		self.vizView.pointNumber = [prefNumber intValue];
-		self.vizView.pointWidth = [prefWidth floatValue];
-		self.vizView.pointSpacing = [prefSpacing floatValue];
-		self.vizView.pointRadius = [prefRadius floatValue];
-		self.vizView.pointSensivity = [prefSensivity floatValue];
-		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+			// Settings
+			self.vizView.pointNumber = [prefNumber intValue];
+			self.vizView.pointWidth = [prefWidth floatValue];
+			self.vizView.pointSpacing = [prefSpacing floatValue];
+			self.vizView.pointRadius = [prefRadius floatValue];
+			self.vizView.pointSensitivity = [prefSensitivity floatValue];
+			self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
-		[self.superview addSubview:self.vizView];
+			[self.superview addSubview:self.vizView];
+		}
+
+		// Hide View
+		[self setHidden:YES];
+
+		// Show Visualyzer and start it
+		[self.vizView setHidden:NO];
+		[self.vizView start];
+
+	} else if(self.iAmCarrier) {
+		[self setHidden:YES];
 	}
-
-	// Hide View
-	[self setHidden:YES];
-
-	// Show Visualyzer and start it
-	[self.vizView setHidden:NO];
-	[self.vizView start];
 
 }
 
 %new
 -(void) stopVisualyzer {
 
-	if(!self.iAmTheChosen) return;
+	if(self.iAmTime) {
+		[self setHidden:NO];
+		[self.vizView setHidden:YES];
 
-	[self setHidden:NO];
-	[self.vizView setHidden:YES];
+		[self.vizView stop];
 
-	[self.vizView stop];
+	} else if(self.iAmCarrier) {
+		[self setHidden:NO];
+	}
 }
 
 
@@ -114,7 +128,7 @@
 // Used when the screen is now ON, and we want to resume
 %new
 -(void) resumeVisualyzer {
-	if(!self.iAmTheChosen) return;
+	if(!self.iAmTime) return;
 
 	[self.vizView resume];
 }
@@ -123,7 +137,7 @@
 // Used when the screen is now OFF, and we want to pause
 %new
 -(void) pauseVisualyzer {
-	if(!self.iAmTheChosen) return;
+	if(!self.iAmTime) return;
 
 	[self.vizView pause];
 }
@@ -180,7 +194,7 @@
 		self.vizView.pointWidth = [prefWidth floatValue];
 		self.vizView.pointSpacing = [prefSpacing floatValue];
 		self.vizView.pointRadius = [prefRadius floatValue];
-		self.vizView.pointSensivity = [prefSensivity floatValue];
+		self.vizView.pointSensitivity = [prefSensitivity floatValue];
 		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 		[self.superview addSubview:self.vizView];
@@ -235,8 +249,10 @@
 	[preferences registerObject:&prefWidth default:@"3.6" forKey:@"width"]; // Width of ...
 	[preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
 	[preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
-	[preferences registerObject:&prefSensivity default:@"1.0" forKey:@"sensivity"];
+	[preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];
 	[preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
+
+	[preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
 
 	// Location
 	[preferences registerObject:&location default:@"1" forKey:@"location"];

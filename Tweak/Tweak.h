@@ -15,11 +15,14 @@ int batteryLocation = 3;
 
 // View Related
 NSString *prefUpdatesPerSecond = nil;
-NSString *prefSensivity = nil;
+NSString *prefSensitivity = nil;
 NSString *prefRadius = nil;
 NSString *prefSpacing = nil;
 NSString *prefWidth = nil;
 NSString *prefNumber = nil;
+
+// TimeRelated
+BOOL prefHideCarrier = NO;
 
 
 @interface SBMediaController
@@ -35,7 +38,8 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 
 @interface _UIStatusBarStringView : UIView
 @property(nonatomic, retain) VisualyzerView *vizView;
-@property(nonatomic) BOOL iAmTheChosen;
+@property(nonatomic) BOOL iAmTime;
+@property(nonatomic) BOOL iAmCarrier;
 
 -(void) setText:(id)arg1;
 
