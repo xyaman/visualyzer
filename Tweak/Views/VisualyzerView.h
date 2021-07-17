@@ -4,6 +4,7 @@
 @interface VisualyzerView: UIView <AudioManagerDelegate>
 
 @property(nonatomic, retain) AudioManager *audioManager;
+@property(nonatomic, retain) UIView *parent;
 
 @property(nonatomic) float refreshRateInSeconds;
 @property(nonatomic) float pointSensitivity;
@@ -14,6 +15,9 @@
 @property(nonatomic) int pointNumber;
 @property(nonatomic) UIColor *pointColor;
 
+@property(nonatomic) BOOL isMusicPlaying;
+
+- (void) handleSingleTap:(UITapGestureRecognizer *)recognizer;
 
 - (void) start;
 - (void) stop;

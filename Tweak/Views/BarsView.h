@@ -4,6 +4,5 @@
 @interface BarsView : VisualyzerView <AudioManagerDelegate> 
 
 // Playing and screen status
-@property(nonatomic) BOOL isMusicPlaying;
 
 @end

@@ -93,7 +93,10 @@
 			self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 			self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
+			self.vizView.parent = self;
+
 			[self.superview addSubview:self.vizView];
+			// [self.superview insertSubview:self.vizView atIndex:self.superview.subviews.count];
 		}
 
 		// Hide View
@@ -199,7 +202,10 @@
 		self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
+		self.vizView.parent = self;
+
 		[self.superview addSubview:self.vizView];
+		// [self.superview insertSubview:self.vizView atIndex:self.superview.subviews.count];
 	}
 
 	// Hide View

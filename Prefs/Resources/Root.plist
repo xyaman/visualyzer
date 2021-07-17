@@ -229,7 +229,7 @@
 			<key>min</key>
 			<real>0</real>
 			<key>max</key>
-			<real>20</real>
+			<real>100</real>
 			<key>showValue</key>
 			<true/>
 			<key>key</key>

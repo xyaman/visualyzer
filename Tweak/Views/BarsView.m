@@ -12,8 +12,6 @@
 -(instancetype) initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 
-	self.isMusicPlaying = NO;
-
 	return self;
 }
 

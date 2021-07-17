@@ -42,9 +42,9 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 @property(nonatomic) BOOL iAmTime;
 @property(nonatomic) BOOL iAmCarrier;
 
--(void) setText:(id)arg1;
+- (void) setText:(id)arg1;
 
--(void) startVisualyzer;
+- (void) startVisualyzer;
 -(void) stopVisualyzer;
 
 -(void) playVisualyzer;

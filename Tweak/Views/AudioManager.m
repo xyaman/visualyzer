@@ -103,6 +103,12 @@
 				break; 
 			}
 
+			// This shouldn't happens but sometimes happens
+			if(bufferSize > MAX_BUFFER_SIZE || bufferSize < sizeof(float)) {
+				close(sockfd);
+				break;
+			}
+
 
 			// When no data is available, the host sends ONE float.
 			if(bufferSize == sizeof(float)) {
@@ -114,11 +120,7 @@
 				continue;
 			}
 
-			// This shouldn't happens but sometimes happens
-			if(bufferSize > MAX_BUFFER_SIZE) {
-				close(sockfd);
-				break;
-			}
+			
 
 			// If we are still here, it means now we have REAL data audio :)
 			rlen = read(sockfd, buffer, bufferSize);
@@ -132,6 +134,7 @@
 
 			// Now we process the audio data
 
+			// we need length, because when using Airpods, the length is 256
 			int length = [self processRawAudio:buffer withLength:bufferLength];	
 
 			// Now we send to our delegate :D
