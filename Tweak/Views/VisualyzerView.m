@@ -26,6 +26,9 @@
 	UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
 	[self addGestureRecognizer:singleFingerTap];
 
+	UILongPressGestureRecognizer *holdFingerTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleHoldTap:)];
+	[self addGestureRecognizer:holdFingerTap];
+
 	return self;
 }
 
@@ -43,11 +46,20 @@
     	];	
 
 		// Wait 2 seconds and show visualyzer again
-		[NSTimer scheduledTimerWithTimeInterval:2 repeats:NO block:^(NSTimer *timer){
+		[NSTimer scheduledTimerWithTimeInterval:2.5 repeats:NO block:^(NSTimer *timer){
 			self.alpha = 1;
 
 			if(self.isMusicPlaying) self.parent.hidden = YES;
 		}];
+	}	
+
+}
+
+- (void) handleHoldTap:(UITapGestureRecognizer *)recognizer {
+
+	SBApplication *nowPlayingApp = [[objc_getClass("SBMediaController") sharedInstance] nowPlayingApplication];
+	if(nowPlayingApp) {
+		[[UIApplication sharedApplication] launchApplicationWithIdentifier:nowPlayingApp.bundleIdentifier suspended:NO];
 	}	
 
 }

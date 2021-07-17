@@ -26,10 +26,10 @@ NSString *prefNumber = nil;
 BOOL prefHideCarrier = NO;
 
 
-@interface SBMediaController
--(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
--(BOOL) isPlaying;
-@end
+// @interface SBMediaController
+// -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
+// -(BOOL) isPlaying;
+// @end
 
 
 /*
