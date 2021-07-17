@@ -7,6 +7,7 @@
 #define ASSPORT 44333
 #define MAX_BUFFER_SIZE 16384
 #define FFT_LENGTH 1024
+#define FFT_AIRPODS_LENGTH 256
 
 
 @interface AudioManager : NSObject {
@@ -14,8 +15,10 @@
 	struct sockaddr_in _addr;
 	BOOL _isConnected;
 
-	// Audio related
+	// Audio relate
 	struct vDSP_DFT_SetupStruct *_fftSetup;
+	struct vDSP_DFT_SetupStruct *_fftAirpodsSetup; // Airpods
+
 	struct DSPSplitComplex _complex;
 	float *_realIn;
 	float *_imagIn;
@@ -28,7 +31,10 @@
 
 @property (nonatomic, weak) id <AudioManagerDelegate> delegate;
 @property (nonatomic) float refreshRateInSeconds;
+@property (nonatomic) float airpodsBoost;
 
--(void) startConnection;
--(void) stopConnection;
+- (void) startConnection;
+- (void) stopConnection;
+- (int) processRawAudio:(float*)buffer withLength:(int)bufferLength;
+- (int) processAirpodsAudio:(float*)buffer;
 @end

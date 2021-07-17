@@ -189,6 +189,12 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Other Options</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>Sensitivity</string>
@@ -206,6 +212,28 @@
 			<true/>
 			<key>key</key>
 			<string>sensitivity</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Boost (Airpods Only)</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>20</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>airpodsBoost</string>
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
@@ -236,7 +264,7 @@
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
 
-		<!-- Other options -->
+		<!-- Miscellaneous -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

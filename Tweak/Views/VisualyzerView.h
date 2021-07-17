@@ -7,6 +7,7 @@
 
 @property(nonatomic) float refreshRateInSeconds;
 @property(nonatomic) float pointSensitivity;
+@property(nonatomic) float pointAirpodsBoost;
 @property(nonatomic) float pointRadius;
 @property(nonatomic) float pointSpacing;
 @property(nonatomic) float pointWidth;

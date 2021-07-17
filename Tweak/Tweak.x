@@ -90,6 +90,7 @@
 			self.vizView.pointSpacing = [prefSpacing floatValue];
 			self.vizView.pointRadius = [prefRadius floatValue];
 			self.vizView.pointSensitivity = [prefSensitivity floatValue];
+			self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 			self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 			[self.superview addSubview:self.vizView];
@@ -195,6 +196,7 @@
 		self.vizView.pointSpacing = [prefSpacing floatValue];
 		self.vizView.pointRadius = [prefRadius floatValue];
 		self.vizView.pointSensitivity = [prefSensitivity floatValue];
+		self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 		[self.superview addSubview:self.vizView];
@@ -250,6 +252,7 @@
 	[preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
 	[preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
 	[preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];
+	[preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
 	[preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 
 	[preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];

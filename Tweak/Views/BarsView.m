@@ -40,6 +40,7 @@
 
 	// We want to update refresh rate every time, just in case it changed;
 	self.audioManager.refreshRateInSeconds = self.refreshRateInSeconds;
+	self.audioManager.airpodsBoost = self.pointAirpodsBoost;
 
 	// Start audio connection
 	self.isMusicPlaying = YES;

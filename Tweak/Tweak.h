@@ -16,6 +16,7 @@ int batteryLocation = 3;
 // View Related
 NSString *prefUpdatesPerSecond = nil;
 NSString *prefSensitivity = nil;
+NSString *prefAirpodsBoost = nil;
 NSString *prefRadius = nil;
 NSString *prefSpacing = nil;
 NSString *prefWidth = nil;
