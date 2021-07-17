@@ -93,6 +93,10 @@
 			self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 			self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
+			// Gestures
+			self.vizView.isSingleTapEnabled = prefIsSingleTapEnabled;
+			self.vizView.isLongTapEnabled = prefIsLongTapEnabled;
+
 			self.vizView.parent = self;
 
 			[self.superview addSubview:self.vizView];
@@ -202,6 +206,10 @@
 		self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
+		// Gestures
+		self.vizView.isSingleTapEnabled = prefIsSingleTapEnabled;
+		self.vizView.isLongTapEnabled = prefIsLongTapEnabled;
+
 		self.vizView.parent = self;
 
 		[self.superview addSubview:self.vizView];
@@ -262,6 +270,10 @@
 	[preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 
 	[preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
+
+	// Gestures
+	[preferences registerBool:&prefIsSingleTapEnabled default:YES forKey:@"isSingleTapEnabled"];
+	[preferences registerBool:&prefIsLongTapEnabled default:YES forKey:@"isLongTapEnabled"];
 
 	// Location
 	[preferences registerObject:&location default:@"1" forKey:@"location"];

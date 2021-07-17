@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Position</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>validValues</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+			<key>validTitles</key>	
+			<array>
+				<string>Time</string>
+				<string>Signal</string>
+			</array>
+			<key>default</key>
+			<integer>1</integer>
+			<key>key</key>
+			<string>location</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Number of points</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+
+			<key>default</key>
+			<integer>4</integer>
+
+			<key>min</key>	
+			<real>0</real>
+
+			<key>max</key>	
+			<real>10</real>
+
+			<key>isSegmented</key>
+			<true/>
+
+			<key>segmentCount</key>
+			<integer>10</integer>
+
+			<key>showValue</key>
+			<true/>
+
+			<key>key</key>
+			<string>number</string>
+
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>			
+		</dict>
+		<!-- Width of bars -->
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Width</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+
+			<key>default</key>
+			<real>3.6</real>
+
+			<key>min</key>	
+			<real>0</real>
+
+			<key>max</key>	
+			<real>10</real>
+
+			<key>showValue</key>
+			<true/>
+
+			<key>key</key>
+			<string>width</string>
+
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>			
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Spacing</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>2.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>spacing</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Radius</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>radius</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Style</string>
+</dict>
+</plist>

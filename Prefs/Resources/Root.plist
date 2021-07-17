@@ -38,238 +38,46 @@
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>label</key>
-			<string>Hide Carrier</string>
-			<key>key</key>
-			<string>hideCarrier</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Position</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSegmentCell</string>
-			<key>validValues</key>
-			<array>
-				<integer>1</integer>
-				<integer>2</integer>
-			</array>
-			<key>validTitles</key>	
-			<array>
-				<string>Time</string>
-				<string>Signal</string>
-			</array>
-			<key>default</key>
-			<integer>1</integer>
-			<key>key</key>
-			<string>location</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Number of points</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-
-			<key>default</key>
-			<integer>4</integer>
-
-			<key>min</key>	
-			<real>0</real>
-
-			<key>max</key>	
-			<real>10</real>
-
-			<key>isSegmented</key>
-			<true/>
-
-			<key>segmentCount</key>
-			<integer>10</integer>
-
-			<key>showValue</key>
-			<true/>
-
-			<key>key</key>
-			<string>number</string>
-
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>			
-		</dict>
-		<!-- Width of bars -->
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Width</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-
-			<key>default</key>
-			<real>3.6</real>
-
-			<key>min</key>	
-			<real>0</real>
-
-			<key>max</key>	
-			<real>10</real>
-
-			<key>showValue</key>
-			<true/>
-
-			<key>key</key>
-			<string>width</string>
-
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>			
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Spacing</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>2.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>10</real>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>spacing</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Radius</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>1.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>10</real>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>radius</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
+		<!-- Customization -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other Options</string>
+			<string>Customization</string>
+			<key>footerText</key>
+			<string>Most changes require a respring</string> 
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSStaticTextCell</string>
+			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Sensitivity</string>
+ 			<string>Style</string>
+ 			<key>detail</key>
+			<string>VLZStyleListController</string> 				
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>1.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>10</real>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>sensitivity</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
+			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Boost (Airpods Only)</string>
+ 			<string>Gestures</string>
+ 			<key>detail</key>
+			<string>VLZGesturesListController</string> 				
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>1.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>100</real>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>airpodsBoost</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
+			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Updates per second</string>
+ 			<string>Miscellaneous</string>
+ 			<key>detail</key>
+			<string>VLZMiscellaneousListController</string> 				
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>10.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>20</real>
-			<key>isSegmented</key>
-			<true/>
-			<key>segmentCount</key>
-			<integer>20</integer>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>updatesPerSecond</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-
-		<!-- Miscellaneous -->
+		
+		<!-- Other -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Miscellaneous</string>
+			<string>Other</string>
 		</dict>
 		<dict>
 			<key>cell</key>

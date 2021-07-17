@@ -2,21 +2,7 @@
 #import <objc/runtime.h>
 #import "AudioManager.h"
 
-@interface SBApplication : NSObject
-@property (nonatomic,readonly) NSString * bundleIdentifier;                                                                                     //@synthesize bundleIdentifier=_bundleIdentifier - In the implementation block
-@end
 
-@interface SBMediaController : NSObject
-+ (instancetype)sharedInstance;
-- (SBApplication *)nowPlayingApplication;
-- (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
-- (BOOL) isPlaying;
-@end
-
-@interface UIApplication ()
-// + (instancetype) sharedApplication;
--(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
-@end
 
 @interface VisualyzerView: UIView <AudioManagerDelegate>
 
@@ -34,6 +20,10 @@
 
 @property(nonatomic) BOOL isMusicPlaying;
 
+// Gestures
+@property(nonatomic) BOOL isSingleTapEnabled;
+@property(nonatomic) BOOL isLongTapEnabled;
+
 - (void) handleSingleTap:(UITapGestureRecognizer *)recognizer;
 - (void) handleHoldTap:(UITapGestureRecognizer *)recognizer;
 
@@ -43,4 +33,24 @@
 - (void) resume;
 - (void) pause;
 
+@end
+
+
+
+
+// Open Audio application related
+@interface SBApplication : NSObject
+@property (nonatomic,readonly) NSString * bundleIdentifier;                                                                                     //@synthesize bundleIdentifier=_bundleIdentifier - In the implementation block
+@end
+
+@interface SBMediaController : NSObject
++ (instancetype)sharedInstance;
+- (SBApplication *)nowPlayingApplication;
+- (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
+- (BOOL) isPlaying;
+@end
+
+@interface UIApplication ()
+// + (instancetype) sharedApplication;
+-(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
 @end

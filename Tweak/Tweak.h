@@ -22,6 +22,11 @@ NSString *prefSpacing = nil;
 NSString *prefWidth = nil;
 NSString *prefNumber = nil;
 
+// Gestures
+BOOL prefIsSingleTapEnabled = YES;
+BOOL prefIsLongTapEnabled = YES;
+
+
 // TimeRelated
 BOOL prefHideCarrier = NO;
 

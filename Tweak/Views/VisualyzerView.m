@@ -19,9 +19,14 @@
 	self.pointColor = [UIColor whiteColor];
 	self.isMusicPlaying = NO;
 
+	// Gestures default
+	self.isSingleTapEnabled = YES;
+	self.isLongTapEnabled = YES;
+
 	self.audioManager = [[AudioManager alloc] init];
 	self.audioManager.delegate = self;
 	self.audioManager.refreshRateInSeconds = self.refreshRateInSeconds;
+
 
 	UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
 	[self addGestureRecognizer:singleFingerTap];
@@ -34,7 +39,7 @@
 
 - (void) handleSingleTap:(UITapGestureRecognizer *)recognizer {
 
-	if(self.parent) {
+	if(self.parent && self.isSingleTapEnabled) {
 		// Animate dissapear
 		[UIView animateWithDuration:0.5
 			animations:^{
@@ -58,7 +63,7 @@
 - (void) handleHoldTap:(UITapGestureRecognizer *)recognizer {
 
 	SBApplication *nowPlayingApp = [[objc_getClass("SBMediaController") sharedInstance] nowPlayingApplication];
-	if(nowPlayingApp) {
+	if(nowPlayingApp && self.isLongTapEnabled) {
 		[[UIApplication sharedApplication] launchApplicationWithIdentifier:nowPlayingApp.bundleIdentifier suspended:NO];
 	}	
 
