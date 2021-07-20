@@ -1,8 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 
-// #import "Views/BarsView.h"
-// #import "Views/VisualyzerView.h"
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
 

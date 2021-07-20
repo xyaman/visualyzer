@@ -54,6 +54,9 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
 
+	// Testing
+
+
 	return orig;
 }
 
@@ -81,8 +84,38 @@
 
 		// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 		// So bars view would never appear
+		// if(!self.sonaView) {
+		// 	self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
+
+		// 	// Settings
+		// 	self.sonaView.pointNumber = [prefNumber intValue];
+		// 	self.sonaView.pointWidth = [prefWidth floatValue];
+		// 	self.sonaView.pointSpacing = [prefSpacing floatValue];
+		// 	self.sonaView.pointRadius = [prefRadius floatValue];
+		// 	self.sonaView.pointSensitivity = [prefSensitivity floatValue];
+		// 	self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
+		// 	self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+
+		// 	// Gestures
+		// 	// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
+		// 	// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
+
+		// 	self.sonaView.parent = self;
+
+		// 	[self.superview addSubview:self.sonaView];
+		// 	// [self.superview insertSubview:self.sonaView atIndex:self.superview.subviews.count];
+		// }
+
 		if(!self.sonaView) {
+
 			self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
+			[self.superview addSubview:self.sonaView];
+
+			// Constraints
+			// [self.sonaView.leftAnchor constraintEqualToAnchor:superview.leftAnchor constant:self.frame.origin.x].active = YES; // Left
+			// [self.sonaView.topAnchor constraintEqualToAnchor:superview.topAnchor].active = YES; // Top
+			// [self.sonaView.widthAnchor constraintEqualToConstant:self.frame.size.width].active = YES; // Width
+			// [self.sonaView.heightAnchor constraintEqualToConstant:self.frame.size.height].active = YES; // Height
 
 			// Settings
 			self.sonaView.pointNumber = [prefNumber intValue];
@@ -93,21 +126,23 @@
 			self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 			self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
+			self.sonaView.hidden = YES;
+
+			[self.sonaView setConstraints:self.frame];
+
 			// Gestures
 			// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
 			// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
 
 			self.sonaView.parent = self;
-
-			[self.superview addSubview:self.sonaView];
-			// [self.superview insertSubview:self.sonaView atIndex:self.superview.subviews.count];
 		}
+		// Show Visualyzer and start it
+		[self.sonaView setHidden:NO];
 
 		// Hide View
 		[self setHidden:YES];
 
-		// Show Visualyzer and start it
-		[self.sonaView setHidden:NO];
+		
 		[self.sonaView start];
 
 	} else if(self.iAmCarrier) {
