@@ -38,7 +38,7 @@
 %hook _UIStatusBarStringView
 %property(nonatomic) BOOL iAmTime;
 %property(nonatomic) BOOL iAmCarrier;
-%property(nonatomic, retain) VisualyzerView *vizView;
+%property(nonatomic, retain) SonaView *sonaView;
 
 -(instancetype) initWithFrame:(CGRect) frame {
 	id orig = %orig;
@@ -71,7 +71,7 @@
 	%orig;
 	if(!self.iAmTime) return;
 
-	if(self.vizView) self.vizView.pointColor = textColor;
+	if(self.sonaView) self.sonaView.pointColor = textColor;
 }
 
 %new
@@ -81,34 +81,34 @@
 
 		// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 		// So bars view would never appear
-		if(!self.vizView) {
-			self.vizView = [[BarsView alloc] initWithFrame:self.frame];
+		if(!self.sonaView) {
+			self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
 
 			// Settings
-			self.vizView.pointNumber = [prefNumber intValue];
-			self.vizView.pointWidth = [prefWidth floatValue];
-			self.vizView.pointSpacing = [prefSpacing floatValue];
-			self.vizView.pointRadius = [prefRadius floatValue];
-			self.vizView.pointSensitivity = [prefSensitivity floatValue];
-			self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
-			self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+			self.sonaView.pointNumber = [prefNumber intValue];
+			self.sonaView.pointWidth = [prefWidth floatValue];
+			self.sonaView.pointSpacing = [prefSpacing floatValue];
+			self.sonaView.pointRadius = [prefRadius floatValue];
+			self.sonaView.pointSensitivity = [prefSensitivity floatValue];
+			self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
+			self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 			// Gestures
-			self.vizView.isSingleTapEnabled = prefIsSingleTapEnabled;
-			self.vizView.isLongTapEnabled = prefIsLongTapEnabled;
+			// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
+			// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
 
-			self.vizView.parent = self;
+			self.sonaView.parent = self;
 
-			[self.superview addSubview:self.vizView];
-			// [self.superview insertSubview:self.vizView atIndex:self.superview.subviews.count];
+			[self.superview addSubview:self.sonaView];
+			// [self.superview insertSubview:self.sonaView atIndex:self.superview.subviews.count];
 		}
 
 		// Hide View
 		[self setHidden:YES];
 
 		// Show Visualyzer and start it
-		[self.vizView setHidden:NO];
-		[self.vizView start];
+		[self.sonaView setHidden:NO];
+		[self.sonaView start];
 
 	} else if(self.iAmCarrier) {
 		[self setHidden:YES];
@@ -121,9 +121,9 @@
 
 	if(self.iAmTime) {
 		[self setHidden:NO];
-		[self.vizView setHidden:YES];
+		[self.sonaView setHidden:YES];
 
-		[self.vizView stop];
+		[self.sonaView stop];
 
 	} else if(self.iAmCarrier) {
 		[self setHidden:NO];
@@ -138,7 +138,7 @@
 -(void) resumeVisualyzer {
 	if(!self.iAmTime) return;
 
-	[self.vizView resume];
+	// [self.sonaView resume];
 }
 
 
@@ -147,7 +147,7 @@
 -(void) pauseVisualyzer {
 	if(!self.iAmTime) return;
 
-	[self.vizView pause];
+	// [self.sonaView pause];
 }
 
 %end
@@ -161,7 +161,7 @@
 %group SignalView
 %hook _UIStatusBarCellularSignalView
 
-%property(nonatomic, retain) VisualyzerView *vizView;
+%property(nonatomic, retain) SonaView *sonaView;
 
 -(id) initWithFrame:(CGRect)frame {
 
@@ -182,9 +182,9 @@
 -(void)_colorsDidChange {
 	%orig;
 
-	if(self.vizView) {
+	if(self.sonaView) {
 		UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
-		self.vizView.pointColor = color;
+		self.sonaView.pointColor = color;
 	}
 
 }
@@ -194,34 +194,34 @@
 
 	// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 	// So bars view would never appear
-	if(!self.vizView) {
-		self.vizView = [[BarsView alloc] initWithFrame:self.frame];
+	if(!self.sonaView) {
+		self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
 
 		// Settings
-		self.vizView.pointNumber = [prefNumber intValue];
-		self.vizView.pointWidth = [prefWidth floatValue];
-		self.vizView.pointSpacing = [prefSpacing floatValue];
-		self.vizView.pointRadius = [prefRadius floatValue];
-		self.vizView.pointSensitivity = [prefSensitivity floatValue];
-		self.vizView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
-		self.vizView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+		self.sonaView.pointNumber = [prefNumber intValue];
+		self.sonaView.pointWidth = [prefWidth floatValue];
+		self.sonaView.pointSpacing = [prefSpacing floatValue];
+		self.sonaView.pointRadius = [prefRadius floatValue];
+		self.sonaView.pointSensitivity = [prefSensitivity floatValue];
+		self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
+		self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 
 		// Gestures
-		self.vizView.isSingleTapEnabled = prefIsSingleTapEnabled;
-		self.vizView.isLongTapEnabled = prefIsLongTapEnabled;
+		// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
+		// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
 
-		self.vizView.parent = self;
+		self.sonaView.parent = self;
 
-		[self.superview addSubview:self.vizView];
-		// [self.superview insertSubview:self.vizView atIndex:self.superview.subviews.count];
+		[self.superview addSubview:self.sonaView];
+		// [self.superview insertSubview:self.sonaView atIndex:self.superview.subviews.count];
 	}
 
 	// Hide View
 	[self setHidden:YES];
 
 	// Show Visualyzer and start it
-	[self.vizView setHidden:NO];
-	[self.vizView start];
+	[self.sonaView setHidden:NO];
+	[self.sonaView start];
 
 }
 
@@ -229,9 +229,9 @@
 -(void) stopVisualyzer {
 
 	[self setHidden:NO];
-	[self.vizView setHidden:YES];
+	[self.sonaView setHidden:YES];
 
-	[self.vizView stop];
+	[self.sonaView stop];
 }
 
 
@@ -240,14 +240,14 @@
 // Used when the screen is now ON, and we want to resume
 %new
 -(void) resumeVisualyzer {
-	[self.vizView resume];
+	// [self.sonaView resume];
 }
 
 
 // Used when the screen is now OFF, and we want to pause
 %new
 -(void) pauseVisualyzer {
-	[self.vizView pause];
+	// [self.sonaView pause];
 }
 
 %end

@@ -1,8 +1,10 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 
-#import "Views/BarsView.h"
-#import "Views/VisualyzerView.h"
+// #import "Views/BarsView.h"
+// #import "Views/VisualyzerView.h"
+#import <Sona/SonaView.h>
+#import <Sona/SonaBarsView.h>
 
 // Preferences
 HBPreferences *preferences = nil;
@@ -31,11 +33,12 @@ BOOL prefIsLongTapEnabled = YES;
 BOOL prefHideCarrier = NO;
 
 
-// @interface SBMediaController
-// -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
-// -(BOOL) isPlaying;
-// @end
-
+@interface SBMediaController : NSObject
++ (instancetype)sharedInstance;
+// - (SBApplication *)nowPlayingApplication;
+- (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
+- (BOOL) isPlaying;
+@end
 
 /*
 THE REASON WHY I'M USING VISUALIZER NOTIFICATION SELECTOR INSIDE THIS CLASS, IT'S BECAUSE
@@ -43,7 +46,7 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 */
 
 @interface _UIStatusBarStringView : UIView
-@property(nonatomic, retain) VisualyzerView *vizView;
+@property(nonatomic, retain) SonaView *sonaView;
 @property(nonatomic) BOOL iAmTime;
 @property(nonatomic) BOOL iAmCarrier;
 
@@ -61,7 +64,7 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 
 
 @interface _UIStatusBarCellularSignalView : UIView
-@property(nonatomic, retain) VisualyzerView *vizView;
+@property(nonatomic, retain) SonaView *sonaView;
 
 -(void) startVisualyzer;
 -(void) stopVisualyzer;
