@@ -1,6 +1,5 @@
 #import "Tweak.h"
 
-
 // Sends the notification when the phone start playing music
 %hook SBMediaController
 -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 {
@@ -60,6 +59,10 @@
 	return orig;
 }
 
+- (void) didMoveToSuperview {
+	NSLog(@"[Visualyzer] frame:%@", NSStringFromCGRect(self.frame));
+}
+
 -(void) setText:(NSString*)arg1 {
 	%orig;
 	if([arg1 containsString:@":"]){
@@ -84,65 +87,16 @@
 
 		// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
 		// So bars view would never appear
-		// if(!self.sonaView) {
-		// 	self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
-
-		// 	// Settings
-		// 	self.sonaView.pointNumber = [prefNumber intValue];
-		// 	self.sonaView.pointWidth = [prefWidth floatValue];
-		// 	self.sonaView.pointSpacing = [prefSpacing floatValue];
-		// 	self.sonaView.pointRadius = [prefRadius floatValue];
-		// 	self.sonaView.pointSensitivity = [prefSensitivity floatValue];
-		// 	self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
-		// 	self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
-
-		// 	// Gestures
-		// 	// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
-		// 	// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
-
-		// 	self.sonaView.parent = self;
-
-		// 	[self.superview addSubview:self.sonaView];
-		// 	// [self.superview insertSubview:self.sonaView atIndex:self.superview.subviews.count];
-		// }
-
 		if(!self.sonaView) {
-
-			self.sonaView = [[SonaBarsView alloc] initWithFrame:self.frame];
+			self.sonaView = [Utils initializeVisualyzerWithParent:self];
 			[self.superview addSubview:self.sonaView];
-
-			// Constraints
-			// [self.sonaView.leftAnchor constraintEqualToAnchor:superview.leftAnchor constant:self.frame.origin.x].active = YES; // Left
-			// [self.sonaView.topAnchor constraintEqualToAnchor:superview.topAnchor].active = YES; // Top
-			// [self.sonaView.widthAnchor constraintEqualToConstant:self.frame.size.width].active = YES; // Width
-			// [self.sonaView.heightAnchor constraintEqualToConstant:self.frame.size.height].active = YES; // Height
-
-			// Settings
-			self.sonaView.pointNumber = [prefNumber intValue];
-			self.sonaView.pointWidth = [prefWidth floatValue];
-			self.sonaView.pointSpacing = [prefSpacing floatValue];
-			self.sonaView.pointRadius = [prefRadius floatValue];
-			self.sonaView.pointSensitivity = [prefSensitivity floatValue];
-			self.sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
-			self.sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
-
-			self.sonaView.hidden = YES;
-
-			[self.sonaView setConstraints:self.frame];
-
-			// Gestures
-			// self.sonaView.isSingleTapEnabled = prefIsSingleTapEnabled;
-			// self.sonaView.isLongTapEnabled = prefIsLongTapEnabled;
-
-			self.sonaView.parent = self;
 		}
-		// Show Visualyzer and start it
-		[self.sonaView setHidden:NO];
 
 		// Hide View
 		[self setHidden:YES];
 
-		
+		// Show Visualyzer and start it
+		[self.sonaView setHidden:NO];
 		[self.sonaView start];
 
 	} else if(self.iAmCarrier) {
@@ -294,6 +248,9 @@
 	
 	[preferences registerBool:&isEnabled default:NO forKey:@"isEnabled"];
 	if(!isEnabled) return;
+
+	// Style
+	[preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
 
 	// Load all preferences
 	[preferences registerObject:&prefNumber default:@"4" forKey:@"number"]; // Number of bars/points/etc

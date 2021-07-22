@@ -28,6 +28,32 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>validValues</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+			<key>validTitles</key>	
+			<array>
+				<string>Bars</string>
+				<string>Wave</string>
+			</array>
+			<key>default</key>
+			<integer>1</integer>
+			<key>key</key>
+			<string>vizStyle</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>

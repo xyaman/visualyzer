@@ -3,10 +3,12 @@
 
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
+#import <Sona/SonaWavesView.h>
 
 // Preferences
 HBPreferences *preferences = nil;
 BOOL isEnabled = NO;
+NSString *prefVizStyle = nil;
 
 NSNumber *location = nil;
 int clockLocation = 1;
@@ -37,6 +39,43 @@ BOOL prefHideCarrier = NO;
 - (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
 - (BOOL) isPlaying;
 @end
+
+
+// Utils
+@interface Utils : NSObject
++ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent;
+@end
+
+@implementation Utils
++ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent {
+
+	SonaView *sonaView;
+
+	switch([prefVizStyle intValue]) {
+		case 1:
+			sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
+			break;
+
+		case 2:
+			sonaView = [[SonaWavesView alloc] initWithFrame:parent.frame];
+			break;
+	}
+
+
+	sonaView.pointNumber = [prefNumber intValue];
+	sonaView.pointWidth = [prefWidth floatValue];
+	sonaView.pointSpacing = [prefSpacing floatValue];
+	sonaView.pointRadius = [prefRadius floatValue];
+	sonaView.pointSensitivity = [prefSensitivity floatValue];
+	sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
+	sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+
+	sonaView.parent = parent;
+
+	return sonaView;
+}
+@end
+
 
 /*
 THE REASON WHY I'M USING VISUALIZER NOTIFICATION SELECTOR INSIDE THIS CLASS, IT'S BECAUSE
