@@ -6,7 +6,7 @@ Description: Simple status bar audio visualizer.
 Maintainer: Xyaman
 Author: Xyaman
 Section: Tweaks
-Depends: mobilesubstrate, preferenceloader, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16), com.xyaman.libsona
+Depends: mobilesubstrate, preferenceloader, com.ryannair05.audiosnapshotserver, ws.hbang.common (>= 1.16), com.xyaman.libsona, love.litten.libkitten
 Depiction: https://repo.xyaman.xyz/depictions/index.html?p=visualyzer
 SileoDepiction: https://repo.xyaman.xyz/depictions/visualyzer/depiction.json
 Icon: https://repo.xyaman.xyz/depictions/visualyzer/assets/icon.png

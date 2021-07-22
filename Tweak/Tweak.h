@@ -1,14 +1,17 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
+#import <MediaRemote/MediaRemote.h>
 
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
 #import <Sona/SonaLineView.h>
+#import <Kitten/libKitten.h>
 
 // Preferences
 HBPreferences *preferences = nil;
 BOOL isEnabled = NO;
 NSString *prefVizStyle = nil;
+BOOL prefUseArtworkColor = nil;
 
 NSNumber *location = nil;
 int clockLocation = 1;
@@ -86,6 +89,9 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 @property(nonatomic) BOOL iAmTime;
 @property(nonatomic) BOOL iAmCarrier;
 
+// new
+- (void) updateArtworkColor:(NSNotification *)notification;
+
 - (void) setText:(id)arg1;
 
 - (void) startVisualyzer;
@@ -101,6 +107,9 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 
 @interface _UIStatusBarCellularSignalView : UIView
 @property(nonatomic, retain) SonaView *sonaView;
+
+// new
+- (void) updateArtworkColor:(NSNotification *)notification;
 
 -(void) startVisualyzer;
 -(void) stopVisualyzer;

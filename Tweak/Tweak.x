@@ -3,12 +3,29 @@
 // Sends the notification when the phone start playing music
 %hook SBMediaController
 -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 {
-	%orig;
+    %orig;
 
-	if([self isPlaying])
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsPlaying" object:nil];
-	else
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsNotPlaying" object:nil];
+    if([self isPlaying])
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsPlaying" object:nil];
+    else
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsNotPlaying" object:nil];
+}
+
+-(void)setNowPlayingInfo:(NSDictionary *)arg1 {
+    %orig;
+
+    MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(), ^(CFDictionaryRef information) {
+
+        NSDictionary *dict = (__bridge NSDictionary *)(information);
+
+        NSData *artworkData = [dict objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+
+        // Artwork colouring 
+        if(prefUseArtworkColor && artworkData) {
+            // vide.backgroundColor = [libKitten backgroundColor: vide.iconView.image];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerArtworkChanged" object:nil userInfo:dict];
+        }
+    });
 }
 %end
 
@@ -16,14 +33,14 @@
 // Sends the notification when the phone's screen if OFF or ON
 %hook SBBacklightController
 -(void)setBacklightFactorPending:(float)value {
-	%orig;
+    %orig;
 
-	// Screen is on
-	if(value > 0.0f) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOn" object:nil];
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOff" object:nil];
-	}
+    // Screen is on
+    if(value > 0.0f) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOn" object:nil];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOff" object:nil];
+    }
 };
 %end
 
@@ -40,83 +57,100 @@
 %property(nonatomic, retain) SonaView *sonaView;
 
 -(instancetype) initWithFrame:(CGRect) frame {
-	id orig = %orig;
-	self.iAmTime = NO; // :(
-	self.iAmCarrier = NO;
+    id orig = %orig;
+    self.iAmTime = NO; // :(
+    self.iAmCarrier = NO;
 
-	// Start/stop status
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
-
-
-	// Play/pause because of screen backlight
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
-
-	// Testing
+    // Start/stop status
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
 
 
-	return orig;
+    // Play/pause because of screen backlight
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
+
+
+    // Artwork colouring
+    if(prefUseArtworkColor) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateArtworkColor:) name:@"visualyzerArtworkChanged" object:nil];
+    }
+
+    // Testing
+
+
+    return orig;
+}
+
+%new
+- (void) updateArtworkColor:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+
+    if(artworkData) {
+        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
+        self.sonaView.pointColor = [libKitten backgroundColor:artwork];
+    }
 }
 
 - (void) didMoveToSuperview {
-	NSLog(@"[Visualyzer] frame:%@", NSStringFromCGRect(self.frame));
+    NSLog(@"[Visualyzer] frame:%@", NSStringFromCGRect(self.frame));
 }
 
 -(void) setText:(NSString*)arg1 {
-	%orig;
-	if([arg1 containsString:@":"]){
-		self.iAmTime = YES;
-	} else if (prefHideCarrier && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
-		self.iAmCarrier = YES;
-	}
+    %orig;
+    if([arg1 containsString:@":"]){
+        self.iAmTime = YES;
+    } else if (prefHideCarrier && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
+        self.iAmCarrier = YES;
+    }
 
 }
 
 -(void) setTextColor:(UIColor *)textColor {
-	%orig;
-	if(!self.iAmTime) return;
+    %orig;
+    if(!self.iAmTime) return;
 
-	if(self.sonaView) self.sonaView.pointColor = textColor;
+    if(self.sonaView && !prefUseArtworkColor) self.sonaView.pointColor = textColor;
 }
 
 %new
 -(void) startVisualyzer {
 
-	if(self.iAmTime) {
+    if(self.iAmTime) {
 
-		// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
-		// So bars view would never appear
-		if(!self.sonaView) {
-			self.sonaView = [Utils initializeVisualyzerWithParent:self];
-			[self.superview addSubview:self.sonaView];
-		}
+        // We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
+        // So bars view would never appear
+        if(!self.sonaView) {
+            self.sonaView = [Utils initializeVisualyzerWithParent:self];
+            [self.superview addSubview:self.sonaView];
+        }
 
-		// Hide View
-		[self setHidden:YES];
+        // Hide View
+        [self setHidden:YES];
 
-		// Show Visualyzer and start it
-		[self.sonaView setHidden:NO];
-		[self.sonaView start];
+        // Show Visualyzer and start it
+        [self.sonaView setHidden:NO];
+        [self.sonaView start];
 
-	} else if(self.iAmCarrier) {
-		[self setHidden:YES];
-	}
+    } else if(self.iAmCarrier) {
+        [self setHidden:YES];
+    }
 
 }
 
 %new
 -(void) stopVisualyzer {
 
-	if(self.iAmTime) {
-		[self setHidden:NO];
-		[self.sonaView setHidden:YES];
+    if(self.iAmTime) {
+        [self setHidden:NO];
+        [self.sonaView setHidden:YES];
 
-		[self.sonaView stop];
+        [self.sonaView stop];
 
-	} else if(self.iAmCarrier) {
-		[self setHidden:NO];
-	}
+    } else if(self.iAmCarrier) {
+        [self setHidden:NO];
+    }
 }
 
 
@@ -125,18 +159,18 @@
 // Used when the screen is now ON, and we want to resume
 %new
 -(void) resumeVisualyzer {
-	if(!self.iAmTime) return;
+    if(!self.iAmTime) return;
 
-	// [self.sonaView resume];
+    // [self.sonaView resume];
 }
 
 
 // Used when the screen is now OFF, and we want to pause
 %new
 -(void) pauseVisualyzer {
-	if(!self.iAmTime) return;
+    if(!self.iAmTime) return;
 
-	// [self.sonaView pause];
+    // [self.sonaView pause];
 }
 
 %end
@@ -154,55 +188,71 @@
 
 -(id) initWithFrame:(CGRect)frame {
 
-	id orig = %orig;
-	NSLog(@"[Visualyzer] location: %@", location);
+    id orig = %orig;
+    NSLog(@"[Visualyzer] location: %@", location);
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
 
 
-	// Play/pause because of screen backlight
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
+    // Play/pause because of screen backlight
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
 
-	return orig;
+    // Artwork colouring
+    if(prefUseArtworkColor) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateArtworkColor:) name:@"visualyzerArtworkChanged" object:nil];
+    }
+
+    return orig;
+}
+
+%new
+- (void) updateArtworkColor:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+
+    if(artworkData) {
+        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
+        self.sonaView.pointColor = [libKitten backgroundColor:artwork];
+    }
 }
 
 -(void)_colorsDidChange {
-	%orig;
+    %orig;
 
-	if(self.sonaView) {
-		UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
-		self.sonaView.pointColor = color;
-	}
+    if(self.sonaView && !prefUseArtworkColor) {
+        UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
+        self.sonaView.pointColor = color;
+    }
 
 }
 
 %new
 -(void) startVisualyzer {
 
-	// We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
-	// So bars view would never appear
-	if(!self.sonaView) {
-		self.sonaView = [Utils initializeVisualyzerWithParent:self];
-		[self.superview addSubview:self.sonaView];
-	}
+    // We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
+    // So bars view would never appear
+    if(!self.sonaView) {
+        self.sonaView = [Utils initializeVisualyzerWithParent:self];
+        [self.superview addSubview:self.sonaView];
+    }
 
-	// Hide View
-	[self setHidden:YES];
+    // Hide View
+    [self setHidden:YES];
 
-	// Show Visualyzer and start it
-	[self.sonaView setHidden:NO];
-	[self.sonaView start];
+    // Show Visualyzer and start it
+    [self.sonaView setHidden:NO];
+    [self.sonaView start];
 }
 
 %new
 -(void) stopVisualyzer {
 
-	[self setHidden:NO];
-	[self.sonaView setHidden:YES];
+    [self setHidden:NO];
+    [self.sonaView setHidden:YES];
 
-	[self.sonaView stop];
+    [self.sonaView stop];
 }
 
 
@@ -211,14 +261,14 @@
 // Used when the screen is now ON, and we want to resume
 %new
 -(void) resumeVisualyzer {
-	// [self.sonaView resume];
+    // [self.sonaView resume];
 }
 
 
 // Used when the screen is now OFF, and we want to pause
 %new
 -(void) pauseVisualyzer {
-	// [self.sonaView pause];
+    // [self.sonaView pause];
 }
 
 %end
@@ -226,36 +276,37 @@
 
 %ctor {
 
-	preferences = [[HBPreferences alloc] initWithIdentifier:@"com.xyaman.visualyzerpreferences"];
-	
-	[preferences registerBool:&isEnabled default:NO forKey:@"isEnabled"];
-	if(!isEnabled) return;
+    preferences = [[HBPreferences alloc] initWithIdentifier:@"com.xyaman.visualyzerpreferences"];
+    
+    [preferences registerBool:&isEnabled default:NO forKey:@"isEnabled"];
+    if(!isEnabled) return;
 
-	// Style
-	[preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
+    // Style
+    [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
+    [preferences registerBool:&prefUseArtworkColor default:NO forKey:@"useArtworkColor"];
 
-	// Load all preferences
-	[preferences registerObject:&prefNumber default:@"4" forKey:@"number"]; // Number of bars/points/etc
-	[preferences registerObject:&prefWidth default:@"3.6" forKey:@"width"]; // Width of ...
-	[preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
-	[preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
-	[preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];
-	[preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
-	[preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
+    // Load all preferences
+    [preferences registerObject:&prefNumber default:@"4" forKey:@"number"]; // Number of bars/points/etc
+    [preferences registerObject:&prefWidth default:@"3.6" forKey:@"width"]; // Width of ...
+    [preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
+    [preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
+    [preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];
+    [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
+    [preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 
-	[preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
+    [preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
 
-	// Gestures
-	[preferences registerBool:&prefIsSingleTapEnabled default:YES forKey:@"isSingleTapEnabled"];
-	[preferences registerBool:&prefIsLongTapEnabled default:YES forKey:@"isLongTapEnabled"];
+    // Gestures
+    [preferences registerBool:&prefIsSingleTapEnabled default:YES forKey:@"isSingleTapEnabled"];
+    [preferences registerBool:&prefIsLongTapEnabled default:YES forKey:@"isLongTapEnabled"];
 
-	// Location
-	[preferences registerObject:&location default:@"1" forKey:@"location"];
+    // Location
+    [preferences registerObject:&location default:@"1" forKey:@"location"];
 
-	%init;
-	if([location intValue] == clockLocation){
-		%init(ClockView);	
-	} else if ([location intValue] == signalLocation) {
-		%init(SignalView);
-	}
+    %init;
+    if([location intValue] == clockLocation){
+        %init(ClockView);   
+    } else if ([location intValue] == signalLocation) {
+        %init(SignalView);
+    }
 }
