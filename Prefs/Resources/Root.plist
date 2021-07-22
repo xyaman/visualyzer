@@ -43,7 +43,7 @@
 			<key>validTitles</key>	
 			<array>
 				<string>Bars</string>
-				<string>Wave</string>
+				<string>Line</string>
 			</array>
 			<key>default</key>
 			<integer>1</integer>

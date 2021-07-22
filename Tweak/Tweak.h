@@ -3,7 +3,7 @@
 
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
-#import <Sona/SonaWavesView.h>
+#import <Sona/SonaLineView.h>
 
 // Preferences
 HBPreferences *preferences = nil;
@@ -57,7 +57,7 @@ BOOL prefHideCarrier = NO;
 			break;
 
 		case 2:
-			sonaView = [[SonaWavesView alloc] initWithFrame:parent.frame];
+			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
 			break;
 	}
 
@@ -69,7 +69,6 @@ BOOL prefHideCarrier = NO;
 	sonaView.pointSensitivity = [prefSensitivity floatValue];
 	sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 	sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
-
 	sonaView.parent = parent;
 
 	return sonaView;
