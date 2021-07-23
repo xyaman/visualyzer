@@ -285,9 +285,11 @@
     [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
     [preferences registerBool:&prefUseArtworkColor default:NO forKey:@"useArtworkColor"];
 
+    // Bars
+    [preferences registerObject:&prefBarsNumber default:@"4" forKey:@"barsNumber"];
+    [preferences registerObject:&prefBarsWidth default:@"3.6" forKey:@"barsWidth"];
+
     // Load all preferences
-    [preferences registerObject:&prefNumber default:@"4" forKey:@"number"]; // Number of bars/points/etc
-    [preferences registerObject:&prefWidth default:@"3.6" forKey:@"width"]; // Width of ...
     [preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
     [preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
     [preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];

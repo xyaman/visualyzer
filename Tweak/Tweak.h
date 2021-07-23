@@ -18,14 +18,15 @@ int clockLocation = 1;
 int signalLocation = 2;
 int batteryLocation = 3;
 
-// View Related
+// Bars Related
+NSString *prefBarsNumber = nil;
+NSString *prefBarsWidth = nil;
+
 NSString *prefUpdatesPerSecond = nil;
 NSString *prefSensitivity = nil;
 NSString *prefAirpodsBoost = nil;
 NSString *prefRadius = nil;
 NSString *prefSpacing = nil;
-NSString *prefWidth = nil;
-NSString *prefNumber = nil;
 
 // Gestures
 BOOL prefIsSingleTapEnabled = YES;
@@ -57,16 +58,17 @@ BOOL prefHideCarrier = NO;
 	switch([prefVizStyle intValue]) {
 		case 1:
 			sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
+			sonaView.pointNumber = [prefBarsNumber intValue];
+			sonaView.pointWidth = [prefBarsWidth floatValue];
 			break;
 
 		case 2:
 			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
+			sonaView.pointNumber = [prefBarsNumber intValue]; // Delete
+			sonaView.pointWidth = [prefBarsWidth floatValue]; // Delete
 			break;
 	}
 
-
-	sonaView.pointNumber = [prefNumber intValue];
-	sonaView.pointWidth = [prefWidth floatValue];
 	sonaView.pointSpacing = [prefSpacing floatValue];
 	sonaView.pointRadius = [prefRadius floatValue];
 	sonaView.pointSensitivity = [prefSensitivity floatValue];
