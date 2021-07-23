@@ -288,11 +288,11 @@
     // Bars
     [preferences registerObject:&prefBarsNumber default:@"4" forKey:@"barsNumber"];
     [preferences registerObject:&prefBarsWidth default:@"3.6" forKey:@"barsWidth"];
+    [preferences registerObject:&prefBarsSpacing default:@"2.0" forKey:@"barsSpacing"];
+    [preferences registerObject:&prefBarsRadius default:@"1.0" forKey:@"barsRadius"];
+    [preferences registerObject:&prefBarsSensitivity default:@"1.0" forKey:@"barsSensitivity"];
 
     // Load all preferences
-    [preferences registerObject:&prefSpacing default:@"2.0" forKey:@"spacing"];
-    [preferences registerObject:&prefRadius default:@"1.0" forKey:@"radius"];
-    [preferences registerObject:&prefSensitivity default:@"1.0" forKey:@"sensitivity"];
     [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
     [preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 

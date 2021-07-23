@@ -75,7 +75,7 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Spacing</string>
+			<string>Bars spacing</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -89,7 +89,7 @@
 			<key>showValue</key>
 			<true/>
 			<key>key</key>
-			<string>spacing</string>
+			<string>barsSpacing</string>
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
@@ -97,7 +97,7 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Radius</string>
+			<string>Bars radius</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -111,12 +111,34 @@
 			<key>showValue</key>
 			<true/>
 			<key>key</key>
-			<string>radius</string>
+			<string>barsRadius</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Bars sensitivity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>10</real>
+			<key>showValue</key>
+			<true/>
+			<key>key</key>
+			<string>barsSensitivity</string>
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>CustomizeBars</string>
+	<string>Customize Bars</string>
 </dict>
 </plist>

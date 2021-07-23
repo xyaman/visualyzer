@@ -21,12 +21,12 @@ int batteryLocation = 3;
 // Bars Related
 NSString *prefBarsNumber = nil;
 NSString *prefBarsWidth = nil;
+NSString *prefBarsSpacing = nil;
+NSString *prefBarsRadius = nil;
+NSString *prefBarsSensitivity = nil;
 
 NSString *prefUpdatesPerSecond = nil;
-NSString *prefSensitivity = nil;
 NSString *prefAirpodsBoost = nil;
-NSString *prefRadius = nil;
-NSString *prefSpacing = nil;
 
 // Gestures
 BOOL prefIsSingleTapEnabled = YES;
@@ -60,18 +60,21 @@ BOOL prefHideCarrier = NO;
 			sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
 			sonaView.pointNumber = [prefBarsNumber intValue];
 			sonaView.pointWidth = [prefBarsWidth floatValue];
+			sonaView.pointSpacing = [prefBarsSpacing floatValue];
+			sonaView.pointRadius = [prefBarsRadius floatValue];
+			sonaView.pointSensitivity = [prefBarsSensitivity floatValue];
 			break;
 
 		case 2:
 			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
 			sonaView.pointNumber = [prefBarsNumber intValue]; // Delete
 			sonaView.pointWidth = [prefBarsWidth floatValue]; // Delete
+			sonaView.pointSpacing = [prefBarsSpacing floatValue]; // Delete
+			sonaView.pointRadius = [prefBarsRadius floatValue]; // Delete
+			sonaView.pointSensitivity = [prefBarsSensitivity floatValue]; // Delete
 			break;
 	}
 
-	sonaView.pointSpacing = [prefSpacing floatValue];
-	sonaView.pointRadius = [prefRadius floatValue];
-	sonaView.pointSensitivity = [prefSensitivity floatValue];
 	sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
 	sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
 	sonaView.parent = parent;

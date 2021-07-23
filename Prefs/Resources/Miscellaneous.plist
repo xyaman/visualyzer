@@ -26,28 +26,6 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Sensitivity</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>1.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>10</real>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>sensitivity</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
 			<string>Boost (Airpods Only)</string>
 		</dict>
 		<dict>
