@@ -16,7 +16,7 @@
 			<key>packageIdentifier</key>
 			<string>com.xyaman.visualyzer</string>
 			<key>footerText</key>
-			<string>Simple status bar audio visualizer for iOS 14.</string>
+			<string>Simple status bar audio visualizer.</string>
 			<key>footerAlignment</key>
 			<integer>1</integer>
 		</dict>	
@@ -28,32 +28,6 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Style</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSegmentCell</string>
-			<key>validValues</key>
-			<array>
-				<integer>1</integer>
-				<integer>2</integer>
-			</array>
-			<key>validTitles</key>	
-			<array>
-				<string>Bars</string>
-				<string>Line</string>
-			</array>
-			<key>default</key>
-			<integer>1</integer>
-			<key>key</key>
-			<string>vizStyle</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
-		<dict>
-			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>
@@ -61,6 +35,34 @@
 			<string>Enabled</string>
 			<key>key</key>
 			<string>isEnabled</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Style</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>cellClass</key>
+			<string>VLZSegmentTableImageCell</string>
+			<key>validValues</key>
+			<array>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+			<key>validTitles</key>	
+			<array>
+				<string>icon@2x.png</string>
+				<string>wave@2x.png</string>
+			</array>
+			<key>default</key>
+			<integer>1</integer>
+			<key>key</key>
+			<string>vizStyle</string>
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
@@ -77,9 +79,11 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
- 			<string>Style</string>
+ 			<string>Customize Bars</string>
  			<key>detail</key>
-			<string>VLZStyleListController</string> 				
+			<string>VLZSubListController</string> 				
+			<key>VLZSub</key>
+			<string>CustomizeBars</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -87,7 +91,9 @@
 			<key>label</key>
  			<string>Gestures</string>
  			<key>detail</key>
-			<string>VLZGesturesListController</string> 				
+			<string>VLZSubListController</string> 				
+			<key>VLZSub</key>
+			<string>Gestures</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -95,7 +101,9 @@
 			<key>label</key>
  			<string>Miscellaneous</string>
  			<key>detail</key>
-			<string>VLZMiscellaneousListController</string> 				
+			<string>VLZSubListController</string> 				
+			<key>VLZSub</key>
+			<string>Miscellaneous</string>
 		</dict>
 		
 		<!-- Other -->

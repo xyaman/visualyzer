@@ -12,3 +12,7 @@ The tweak it's available on my repo https://repo.xyaman.xyz.
 # Screenshots
 
 TODO
+
+# Special thanks
+
+- Lacertosus, for his help in discord and cell preferences. https://github.com/LacertosusRepo/Preference-Cell-Examples

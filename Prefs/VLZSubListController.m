@@ -1,6 +1,6 @@
-#include "VLZGesturesListController.h"
+#include "VLZSubListController.h"
 
-@implementation VLZGesturesListController
+@implementation VLZSubListController
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -13,10 +13,17 @@
 }
 
 - (NSArray *)specifiers {
-    if (!_specifiers) {
-        _specifiers = [self loadSpecifiersFromPlistName:@"Gestures" target:self];
-    }
-
     return _specifiers;
+}
+
+- (void)loadFromSpecifier:(PSSpecifier *)specifier {
+
+    NSString* sub = [specifier propertyForKey:@"VLZSub"];
+    _specifiers = [self loadSpecifiersFromPlistName:sub target:self];
+}
+
+- (void)setSpecifier:(PSSpecifier *)specifier {
+    [self loadFromSpecifier:specifier];
+    [super setSpecifier:specifier];
 }
 @end
