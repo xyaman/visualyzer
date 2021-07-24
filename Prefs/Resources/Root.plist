@@ -46,24 +46,16 @@
         </dict>
         <dict>
             <key>cell</key>
-            <string>PSStaticTextCell</string>
-            <key>label</key>
-            <string>Style</string>
-        </dict>
-        <dict>
-            <key>cell</key>
             <string>PSSegmentCell</string>
-            <key>cellClass</key>
-            <string>VLZSegmentTableImageCell</string>
             <key>validValues</key>
             <array>
                 <integer>1</integer>
                 <integer>2</integer>
             </array>
-            <key>validTitles</key>
+            <key>validTitles</key>  
             <array>
-                <string>icon@2x.png</string>
-                <string>wave@2x.png</string>
+                <string>Bars</string>
+                <string>Wave/Line</string>
             </array>
             <key>default</key>
             <integer>1</integer>
@@ -74,7 +66,7 @@
         </dict>
         <dict>
             <key>cell</key>
-            <string>PSStaticTextCell</string>
+            <string>PSGroupCell</string>
             <key>label</key>
             <string>Position</string>
         </dict>
@@ -98,6 +90,15 @@
             <key>defaults</key>
             <string>com.xyaman.visualyzerpreferences</string>
         </dict>
+        <!-- Customization -->
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Customization</string>
+            <key>footerText</key>
+            <string>Most changes require a respring</string> 
+        </dict>
         <dict>
             <key>cell</key>
             <string>PSSwitchCell</string>
@@ -110,15 +111,6 @@
             <key>defaults</key>
             <string>com.xyaman.visualyzerpreferences</string>
         </dict>
-        <!-- Customization -->
-        <dict>
-            <key>cell</key>
-            <string>PSGroupCell</string>
-            <key>label</key>
-            <string>Customization</string>
-            <key>footerText</key>
-            <string>Most changes require a respring</string> 
-        </dict>
         <dict>
             <key>cell</key>
             <string>PSLinkCell</string>
@@ -128,6 +120,16 @@
             <string>VLZSubListController</string>
             <key>VLZSub</key>
             <string>CustomizeBars</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSLinkCell</string>
+            <key>label</key>
+            <string>Customize Wave</string>
+            <key>detail</key>
+            <string>VLZSubListController</string>
+            <key>VLZSub</key>
+            <string>CustomizeWave</string>
         </dict>
         <dict>
             <key>cell</key>

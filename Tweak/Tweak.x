@@ -124,6 +124,12 @@
         if(!self.sonaView) {
             self.sonaView = [Utils initializeVisualyzerWithParent:self];
             [self.superview addSubview:self.sonaView];
+            
+            // Add tap gesture
+            if(prefIsSingleTapEnabled) {
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
+                [self.sonaView addGestureRecognizer:tap];
+            }
         }
 
         // Hide View
@@ -236,6 +242,12 @@
     if(!self.sonaView) {
         self.sonaView = [Utils initializeVisualyzerWithParent:self];
         [self.superview addSubview:self.sonaView];
+
+        // Add tap gesture
+        if(prefIsSingleTapEnabled) {
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
+            [self.sonaView addGestureRecognizer:tap];
+        }
     }
 
     // Hide View
@@ -291,6 +303,11 @@
     [preferences registerObject:&prefBarsSpacing default:@"2.0" forKey:@"barsSpacing"];
     [preferences registerObject:&prefBarsRadius default:@"1.0" forKey:@"barsRadius"];
     [preferences registerObject:&prefBarsSensitivity default:@"1.0" forKey:@"barsSensitivity"];
+
+    // Wave
+    [preferences registerObject:&prefWaveNumber default:@"16" forKey:@"waveNumber"];
+    [preferences registerObject:&prefWaveSensitivity default:@"4.0" forKey:@"waveSensitivity"];
+    [preferences registerBool:&prefOnlyLine default:NO forKey:@"waveOnlyLine"];
 
     // Load all preferences
     [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];

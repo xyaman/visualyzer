@@ -9,39 +9,23 @@
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Number of bars</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-
-			<key>default</key>
-			<integer>4</integer>
-
-			<key>min</key>	
-			<real>0</real>
-
-			<key>max</key>	
-			<real>10</real>
-
-			<key>isSegmented</key>
-			<true/>
-
-			<key>segmentCount</key>
-			<integer>10</integer>
-
-			<key>showValue</key>
-			<true/>
-
-			<key>key</key>
-			<string>barsNumber</string>
-
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>			
-		</dict>
+		    <key>cellClass</key>
+		    <string>HBStepperTableCell</string>
+		    <key>default</key>
+		    <real>4</real>
+		    <key>label</key>
+		    <string>Number of bars: %i</string>
+		    <key>singularLabel</key>
+		    <string>Number of bars: %i</string>
+		    <key>max</key>
+		    <real>10</real>
+		    <key>min</key>
+		    <real>1</real>
+		    <key>key</key>
+		    <string>barsNumber</string>
+		    <key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>	
+		</dict>	
 		<!-- Width of bars -->
 		<dict>
 			<key>cell</key>

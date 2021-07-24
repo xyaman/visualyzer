@@ -25,6 +25,11 @@ NSString *prefBarsSpacing = nil;
 NSString *prefBarsRadius = nil;
 NSString *prefBarsSensitivity = nil;
 
+// Wave Related
+NSString *prefWaveNumber = nil;
+NSString *prefWaveSensitivity = nil;
+BOOL prefOnlyLine = NO;
+
 NSString *prefUpdatesPerSecond = nil;
 NSString *prefAirpodsBoost = nil;
 
@@ -43,46 +48,6 @@ BOOL prefHideCarrier = NO;
 - (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
 - (BOOL) isPlaying;
 @end
-
-
-// Utils
-@interface Utils : NSObject
-+ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent;
-@end
-
-@implementation Utils
-+ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent {
-
-	SonaView *sonaView;
-
-	switch([prefVizStyle intValue]) {
-		case 1:
-			sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
-			sonaView.pointNumber = [prefBarsNumber intValue];
-			sonaView.pointWidth = [prefBarsWidth floatValue];
-			sonaView.pointSpacing = [prefBarsSpacing floatValue];
-			sonaView.pointRadius = [prefBarsRadius floatValue];
-			sonaView.pointSensitivity = [prefBarsSensitivity floatValue];
-			break;
-
-		case 2:
-			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
-			sonaView.pointNumber = [prefBarsNumber intValue]; // Delete
-			sonaView.pointWidth = [prefBarsWidth floatValue]; // Delete
-			sonaView.pointSpacing = [prefBarsSpacing floatValue]; // Delete
-			sonaView.pointRadius = [prefBarsRadius floatValue]; // Delete
-			sonaView.pointSensitivity = [prefBarsSensitivity floatValue]; // Delete
-			break;
-	}
-
-	sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
-	sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
-	sonaView.parent = parent;
-
-	return sonaView;
-}
-@end
-
 
 /*
 THE REASON WHY I'M USING VISUALIZER NOTIFICATION SELECTOR INSIDE THIS CLASS, IT'S BECAUSE
@@ -123,4 +88,46 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 -(void) pauseVisualyzer;
 
 -(void) changeVisualyzerColor:(NSNotification *)notification;
+@end
+
+
+
+// Utils
+@interface Utils : NSObject
++ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent;
+@end
+
+@implementation Utils
++ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent {
+
+	SonaView *sonaView;
+
+	switch([prefVizStyle intValue]) {
+		case 1:
+			sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
+			sonaView.pointNumber = [prefBarsNumber intValue];
+			sonaView.pointWidth = [prefBarsWidth floatValue];
+			sonaView.pointSpacing = [prefBarsSpacing floatValue];
+			sonaView.pointRadius = [prefBarsRadius floatValue];
+			sonaView.pointSensitivity = [prefBarsSensitivity floatValue];
+			break;
+
+		case 2:
+			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
+			sonaView.pointNumber = [prefWaveNumber intValue];
+			sonaView.pointSensitivity = [prefWaveSensitivity floatValue];
+			[(SonaLineView*)sonaView setOnlyLine:prefOnlyLine]; 
+			break;
+	}
+
+	sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
+	sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
+	sonaView.parent = parent;
+
+	// Add tap gesture
+	// UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:sonaView action:@selector(hideAndShowParentFor2Sec)];
+	// [sonaView addGestureRecognizer:tap];	
+
+	return sonaView;
+}
 @end
