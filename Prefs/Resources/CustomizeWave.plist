@@ -26,25 +26,23 @@
             <string>PSGroupCell</string>
         </dict>
         <dict>
-            <key>cell</key>
-            <string>PSSliderCell</string>
+            <key>cellClass</key>
+            <string>HBStepperTableCell</string>
             <key>default</key>
-            <integer>16</integer>
-            <key>min</key>  
-            <real>0</real>
-            <key>max</key>  
+            <real>16</real>
+            <key>label</key>
+            <string>Number of points: %i</string>
+            <key>singularLabel</key>
+            <string>Number of points: %i</string>
+            <key>max</key>
             <real>64</real>
-            <key>isSegmented</key>
-            <true/>
-            <key>segmentCount</key>
-            <integer>64</integer>
-            <key>showValue</key>
-            <true/>
+            <key>min</key>
+            <real>1</real>
             <key>key</key>
             <string>waveNumber</string>
             <key>defaults</key>
-            <string>com.xyaman.visualyzerpreferences</string>           
-        </dict>
+            <string>com.xyaman.visualyzerpreferences</string>   
+        </dict> 
         <dict>
             <key>cell</key>
             <string>PSStaticTextCell</string>

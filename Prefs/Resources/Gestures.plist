@@ -27,8 +27,6 @@
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
-			<key>enabled</key>
-			<false/>
 			<key>default</key>
 			<true/>
 			<key>label</key>

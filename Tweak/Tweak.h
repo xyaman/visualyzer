@@ -5,7 +5,7 @@
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
 #import <Sona/SonaLineView.h>
-#import <Kitten/libKitten.h>
+#import <Kuro/libKuro.h>
 
 // Preferences
 HBPreferences *preferences = nil;

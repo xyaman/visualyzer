@@ -89,7 +89,7 @@
 
     if(artworkData) {
         UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
-        self.sonaView.pointColor = [libKitten backgroundColor:artwork];
+        self.sonaView.pointColor = [Kuro getPrimaryColor:artwork];
     }
 }
 
@@ -129,6 +129,12 @@
             if(prefIsSingleTapEnabled) {
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
                 [self.sonaView addGestureRecognizer:tap];
+            }
+
+            // Add tap gesture
+            if(prefIsLongTapEnabled) {
+                UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+                [self.sonaView addGestureRecognizer:longTap];
             }
         }
 
@@ -220,7 +226,7 @@
 
     if(artworkData) {
         UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
-        self.sonaView.pointColor = [libKitten backgroundColor:artwork];
+        self.sonaView.pointColor = [Kuro getPrimaryColor:artwork];
     }
 }
 
@@ -247,6 +253,12 @@
         if(prefIsSingleTapEnabled) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
             [self.sonaView addGestureRecognizer:tap];
+        }
+
+        // Add tap gesture
+        if(prefIsLongTapEnabled) {
+            UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+            [self.sonaView addGestureRecognizer:longTap];
         }
     }
 
