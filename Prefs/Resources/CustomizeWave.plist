@@ -43,6 +43,28 @@
             <key>defaults</key>
             <string>com.xyaman.visualyzerpreferences</string>   
         </dict> 
+         <dict>
+            <key>cell</key>
+            <string>PSStaticTextCell</string>
+            <key>label</key>
+            <string>Y offset</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSliderCell</string>
+            <key>default</key>
+            <real>0</real>
+            <key>min</key>
+            <real>-6</real>
+            <key>max</key>
+            <real>6</real>
+            <key>showValue</key>
+            <true/>
+            <key>key</key>
+            <string>waveYOffset</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
         <dict>
             <key>cell</key>
             <string>PSStaticTextCell</string>

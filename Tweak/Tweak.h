@@ -4,7 +4,7 @@
 
 #import <Sona/SonaView.h>
 #import <Sona/SonaBarsView.h>
-#import <Sona/SonaLineView.h>
+#import <Sona/SonaWaveView.h>
 #import <Kuro/libKuro.h>
 
 // Preferences
@@ -28,6 +28,7 @@ NSString *prefBarsSensitivity = nil;
 // Wave Related
 NSString *prefWaveNumber = nil;
 NSString *prefWaveSensitivity = nil;
+NSString *prefWaveYOffset = nil;
 BOOL prefOnlyLine = NO;
 
 NSString *prefUpdatesPerSecond = nil;
@@ -113,10 +114,11 @@ WE NEED TO INITIALIZE VISUALIZER THE FIRST TIME, TO GET THE CORRECT FRAME
 			break;
 
 		case 2:
-			sonaView = [[SonaLineView alloc] initWithFrame:parent.frame];
+			sonaView = [[SonaWaveView alloc] initWithFrame:parent.frame];
 			sonaView.pointNumber = [prefWaveNumber intValue];
 			sonaView.pointSensitivity = [prefWaveSensitivity floatValue];
-			[(SonaLineView*)sonaView setOnlyLine:prefOnlyLine]; 
+			[(SonaWaveView*)sonaView setOnlyLine:prefOnlyLine]; 
+			[(SonaWaveView*)sonaView setWaveYOffset:[prefWaveYOffset floatValue]]; 
 			break;
 	}
 

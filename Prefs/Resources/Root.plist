@@ -135,11 +135,11 @@
             <key>cell</key>
             <string>PSLinkCell</string>
             <key>label</key>
-            <string>Gestures</string>
+            <string>Gestures (Beta)</string>
             <key>detail</key>
             <string>VLZSubListController</string>
             <key>VLZSub</key>
-            <string>Gestures (Beta)</string>
+            <string>Gestures</string>
         </dict>
         <dict>
             <key>cell</key>

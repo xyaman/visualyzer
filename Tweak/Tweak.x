@@ -45,6 +45,20 @@
 %end
 
 
+// // Lockscreen and notification center
+// %hook CSCoverSheetViewController
+
+// // Lockscreen appears and we want to hide visualyzer
+// - (void)viewWillAppear:(BOOL)animated {
+//     [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerLSWillAppear" object:nil];
+// }
+
+// - (void)viewWillDisappear:(BOOL)animated { 
+//     [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerLSWillDisappear" object:nil];
+// }
+// %end
+
+
 /***********************************
  * CLOCK VIEW
 ************************************/
@@ -71,6 +85,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
 
 
+    // Hide lockscreen
+    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerLSWillAppear" object:nil];
+
+
     // Artwork colouring
     if(prefUseArtworkColor) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateArtworkColor:) name:@"visualyzerArtworkChanged" object:nil];
@@ -82,8 +100,12 @@
     return orig;
 }
 
+
 %new
 - (void) updateArtworkColor:(NSNotification *)notification {
+    
+    if(!self.sonaView) return;
+
     NSDictionary *userInfo = [notification userInfo];
     NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
 
@@ -320,6 +342,7 @@
     [preferences registerObject:&prefWaveNumber default:@"16" forKey:@"waveNumber"];
     [preferences registerObject:&prefWaveSensitivity default:@"4.0" forKey:@"waveSensitivity"];
     [preferences registerBool:&prefOnlyLine default:NO forKey:@"waveOnlyLine"];
+    [preferences registerObject:&prefWaveYOffset default:0 forKey:@"waveYOffset"];
 
     // Load all preferences
     [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
