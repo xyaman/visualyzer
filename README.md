@@ -15,4 +15,4 @@ TODO
 
 # Special thanks
 
-- Lacertosus, for his help in discord and cell preferences. https://github.com/LacertosusRepo/Preference-Cell-Examples
+- Lacertosus, for his help and cell preferences examples. https://github.com/LacertosusRepo/Preference-Cell-Examples

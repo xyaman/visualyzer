@@ -24,11 +24,14 @@ NSString *prefBarsWidth = nil;
 NSString *prefBarsSpacing = nil;
 NSString *prefBarsRadius = nil;
 NSString *prefBarsSensitivity = nil;
+NSString *prefBarsXOffset = nil;
 
 // Wave Related
 NSString *prefWaveNumber = nil;
 NSString *prefWaveSensitivity = nil;
+NSString *prefWaveXOffset = nil;
 NSString *prefWaveYOffset = nil;
+NSString *prefWaveStrokeWidth = nil;
 BOOL prefOnlyLine = NO;
 
 NSString *prefUpdatesPerSecond = nil;
@@ -107,14 +110,17 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
             sonaView.pointSpacing = [prefBarsSpacing floatValue];
             sonaView.pointRadius = [prefBarsRadius floatValue];
             sonaView.pointSensitivity = [prefBarsSensitivity floatValue];
+            sonaView.xOffset = [prefBarsXOffset floatValue];
             break;
 
         case 2:
             sonaView = [[SonaWaveView alloc] initWithFrame:parent.frame];
             sonaView.pointNumber = [prefWaveNumber intValue];
             sonaView.pointSensitivity = [prefWaveSensitivity floatValue];
+            sonaView.xOffset = [prefWaveXOffset floatValue];
+            sonaView.yOffset = [prefWaveYOffset floatValue];
             [(SonaWaveView*)sonaView setOnlyLine:prefOnlyLine]; 
-            [(SonaWaveView*)sonaView setWaveYOffset:[prefWaveYOffset floatValue]]; 
+            [[(SonaWaveView*)sonaView shapeLayer] setLineWidth:[prefWaveStrokeWidth floatValue]]; 
             break;
     }
 

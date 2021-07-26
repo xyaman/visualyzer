@@ -26,4 +26,13 @@
     [self loadFromSpecifier:specifier];
     [super setSpecifier:specifier];
 }
+
+- (BOOL)shouldReloadSpecifiersOnResume {
+    return false;
+}
+
+- (UITableViewStyle)tableViewStyle {
+  return UITableViewStyleInsetGrouped;
+}
+
 @end

@@ -20,11 +20,12 @@
             <key>defaults</key>
             <string>com.xyaman.visualyzerpreferences</string> 
         </dict>
-
         <dict>
             <key>cell</key>
             <string>PSGroupCell</string>
-        </dict>
+            <key>label</key>
+            <string>Style</string>
+        </dict> 
         <dict>
             <key>cellClass</key>
             <string>HBStepperTableCell</string>
@@ -42,8 +43,58 @@
             <string>waveNumber</string>
             <key>defaults</key>
             <string>com.xyaman.visualyzerpreferences</string>   
-        </dict> 
-         <dict>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSStaticTextCell</string>
+            <key>label</key>
+            <string>Line stroke width</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSliderCell</string>
+            <key>default</key>
+            <real>1.5</real>
+            <key>min</key>
+            <real>0.1</real>
+            <key>max</key>
+            <real>5</real>
+            <key>showValue</key>
+            <true/>
+            <key>key</key>
+            <string>waveStrokeWidth</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Positioning</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSStaticTextCell</string>
+            <key>label</key>
+            <string>X offset</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSliderCell</string>
+            <key>default</key>
+            <real>0</real>
+            <key>min</key>
+            <real>-10</real>
+            <key>max</key>
+            <real>10</real>
+            <key>showValue</key>
+            <true/>
+            <key>key</key>
+            <string>waveXOffset</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
             <key>cell</key>
             <string>PSStaticTextCell</string>
             <key>label</key>
@@ -55,9 +106,9 @@
             <key>default</key>
             <real>0</real>
             <key>min</key>
-            <real>-6</real>
+            <real>-10</real>
             <key>max</key>
-            <real>6</real>
+            <real>10</real>
             <key>showValue</key>
             <true/>
             <key>key</key>
@@ -67,9 +118,15 @@
         </dict>
         <dict>
             <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Other options</string>
+        </dict>
+        <dict>
+            <key>cell</key>
             <string>PSStaticTextCell</string>
             <key>label</key>
-            <string>Wave sensitivity</string>
+            <string>Wave/Line sensitivity</string>
         </dict>
         <dict>
             <key>cell</key>

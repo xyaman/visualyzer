@@ -66,6 +66,18 @@
         </dict>
         <dict>
             <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>label</key>
+            <string>Use song artwork color</string>
+            <key>key</key>
+            <string>useArtworkColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
             <string>PSGroupCell</string>
             <key>label</key>
             <string>Position</string>
@@ -97,19 +109,7 @@
             <key>label</key>
             <string>Customization</string>
             <key>footerText</key>
-            <string>Most changes require a respring</string> 
-        </dict>
-        <dict>
-            <key>cell</key>
-            <string>PSSwitchCell</string>
-            <key>default</key>
-            <false/>
-            <key>label</key>
-            <string>Use song artwork color</string>
-            <key>key</key>
-            <string>useArtworkColor</string>
-            <key>defaults</key>
-            <string>com.xyaman.visualyzerpreferences</string>
+            <string>Most changes require a respring.</string>
         </dict>
         <dict>
             <key>cell</key>
@@ -135,7 +135,7 @@
             <key>cell</key>
             <string>PSLinkCell</string>
             <key>label</key>
-            <string>Gestures (Beta)</string>
+            <string>Gestures</string>
             <key>detail</key>
             <string>VLZSubListController</string>
             <key>VLZSub</key>
@@ -158,14 +158,6 @@
             <string>PSGroupCell</string>
             <key>label</key>
             <string>Other</string>
-        </dict>
-        <dict>
-            <key>cell</key>
-            <string>PSButtonCell</string>
-            <key>label</key>
-            <string>Respring</string>
-            <key>action</key>
-            <string>respring:</string>
         </dict>
         <dict>
             <key>cell</key>

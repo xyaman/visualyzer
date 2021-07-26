@@ -293,12 +293,15 @@
     [preferences registerObject:&prefBarsSpacing default:@"2.0" forKey:@"barsSpacing"];
     [preferences registerObject:&prefBarsRadius default:@"1.0" forKey:@"barsRadius"];
     [preferences registerObject:&prefBarsSensitivity default:@"1.0" forKey:@"barsSensitivity"];
+    [preferences registerObject:&prefBarsXOffset default:@"1.0" forKey:@"barsXOffset"];
 
     // Wave
     [preferences registerObject:&prefWaveNumber default:@"16" forKey:@"waveNumber"];
     [preferences registerObject:&prefWaveSensitivity default:@"4.0" forKey:@"waveSensitivity"];
+    [preferences registerObject:&prefWaveStrokeWidth default:@"1.5" forKey:@"waveStrokeWidth"];
+    [preferences registerObject:&prefWaveXOffset default:@"0" forKey:@"waveXOffset"];
+    [preferences registerObject:&prefWaveYOffset default:@"0" forKey:@"waveYOffset"];
     [preferences registerBool:&prefOnlyLine default:NO forKey:@"waveOnlyLine"];
-    [preferences registerObject:&prefWaveYOffset default:0 forKey:@"waveYOffset"];
 
     // Load all preferences
     [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];

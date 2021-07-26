@@ -100,6 +100,40 @@
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
 		<dict>
+        	<key>cell</key>
+        	<string>PSGroupCell</string>
+        	<key>label</key>
+        	<string>Positioning</string>
+        </dict>
+		<dict>
+            <key>cell</key>
+            <string>PSStaticTextCell</string>
+            <key>label</key>
+            <string>X offset</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSliderCell</string>
+            <key>default</key>
+            <real>0</real>
+            <key>min</key>
+            <real>-10</real>
+            <key>max</key>
+            <real>10</real>
+            <key>showValue</key>
+            <true/>
+            <key>key</key>
+            <string>barsXOffset</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+        	<key>cell</key>
+        	<string>PSGroupCell</string>
+        	<key>label</key>
+        	<string>Other options</string>
+        </dict>
+		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
