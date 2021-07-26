@@ -12,7 +12,3 @@ The tweak it's available on my repo https://repo.xyaman.xyz.
 # Screenshots
 
 TODO
-
-# Special thanks
-
-- Lacertosus, for his help and cell preferences examples. https://github.com/LacertosusRepo/Preference-Cell-Examples
