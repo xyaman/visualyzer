@@ -141,7 +141,8 @@
 
         // Add long tap gesture
         if(prefIsLongTapEnabled) {
-            UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+            // UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+            UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap)];
             [self.sonaView addGestureRecognizer:longTap];
         }
 
@@ -161,6 +162,14 @@
 
         if(prefUseArtworkColor) [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setArtworkColor:) name:vizNewPlayingInfo object:nil];
    } 
+}
+
+%new
+- (void) handleLongTap {
+    UIImpactFeedbackGenerator *feedback = [[UIImpactFeedbackGenerator alloc] init];
+    [feedback prepare];
+    [self.sonaView openCurrentPlayingApp];
+    [feedback impactOccurred]; 
 }
 
 %new
@@ -218,7 +227,9 @@
 
     // Add long tap gesture
     if(prefIsLongTapEnabled) {
-        UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+        // UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+        UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongTap)];
+
         [self.sonaView addGestureRecognizer:longTap];
     }
 
@@ -237,6 +248,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(pause) name:vizPause object:nil];
 
     if(prefUseArtworkColor) [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setArtworkColor:) name:vizNewPlayingInfo object:nil];
+}
+
+%new
+- (void) handleLongTap {
+    UIImpactFeedbackGenerator *feedback = [[UIImpactFeedbackGenerator alloc] init];
+    [feedback prepare];
+    [self.sonaView openCurrentPlayingApp];
+    [feedback impactOccurred]; 
 }
 
 %new
