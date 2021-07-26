@@ -1,33 +1,41 @@
 #import "Tweak.h"
 
-// Sends the notification when the phone start playing music
+/*----------------------
+ |  Notifications
+ -----------------------*/
+
+// Sends the notification when the device starts playing music
 %hook SBMediaController
 -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 {
     %orig;
 
     if([self isPlaying])
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsPlaying" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:vizStartPlaying object:nil];
     else
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerIsNotPlaying" object:nil];
-}
+        [[NSNotificationCenter defaultCenter] postNotificationName:vizStopPlaying object:nil];
 
+}
+%end
+
+// Only used when artwork color is enabled
+%group ArtworkColorNotification
+%hook SBMediaController
+// This method is for sending the new song artwork
 -(void)setNowPlayingInfo:(NSDictionary *)arg1 {
     %orig;
 
+    // arg1 returns a dict that doesn't work for us :(
+
+    if(!prefUseArtworkColor) return;
+
     MRMediaRemoteGetNowPlayingInfo(dispatch_get_main_queue(), ^(CFDictionaryRef information) {
-
-        NSDictionary *dict = (__bridge NSDictionary *)(information);
-
-        NSData *artworkData = [dict objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
-
-        // Artwork colouring 
-        if(prefUseArtworkColor && artworkData) {
-            // vide.backgroundColor = [libKitten backgroundColor: vide.iconView.image];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerArtworkChanged" object:nil userInfo:dict];
-        }
+        NSDictionary *info = (__bridge NSDictionary *)(information);
+        [[NSNotificationCenter defaultCenter] postNotificationName:vizNewPlayingInfo object:nil userInfo:info];
     });
 }
 %end
+%end
+
 
 
 // Sends the notification when the phone's screen if OFF or ON
@@ -37,288 +45,214 @@
 
     // Screen is on
     if(value > 0.0f) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOn" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:vizResume object:nil];
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerBacklightIsOff" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:vizPause object:nil];
     }
-};
+}
 %end
 
-
-// // Lockscreen and notification center
-// %hook CSCoverSheetViewController
-
-// // Lockscreen appears and we want to hide visualyzer
-// - (void)viewWillAppear:(BOOL)animated {
-//     [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerLSWillAppear" object:nil];
-// }
-
-// - (void)viewWillDisappear:(BOOL)animated { 
-//     [[NSNotificationCenter defaultCenter] postNotificationName:@"visualyzerLSWillDisappear" object:nil];
-// }
-// %end
-
-
-/***********************************
- * CLOCK VIEW
-************************************/
-
-// When we want the visualyzer be in Clock location
-%group ClockView
+/*----------------------
+ |  Hide Carrier
+ -----------------------*/
+%group HideCarrier
 %hook _UIStatusBarStringView
-%property(nonatomic) BOOL iAmTime;
 %property(nonatomic) BOOL iAmCarrier;
-%property(nonatomic, retain) SonaView *sonaView;
 
--(instancetype) initWithFrame:(CGRect) frame {
+- (id) initWithFrame:(CGRect)frame {
     id orig = %orig;
-    self.iAmTime = NO; // :(
     self.iAmCarrier = NO;
 
-    // Start/stop status
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
-
-
-    // Play/pause because of screen backlight
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
-
-
-    // Hide lockscreen
-    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerLSWillAppear" object:nil];
-
-
-    // Artwork colouring
-    if(prefUseArtworkColor) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateArtworkColor:) name:@"visualyzerArtworkChanged" object:nil];
-    }
-
-    // Testing
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hide) name:vizStartPlaying object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unhide) name:vizStopPlaying object:nil];
 
     return orig;
 }
 
-
-%new
-- (void) updateArtworkColor:(NSNotification *)notification {
-    
-    if(!self.sonaView) return;
-
-    NSDictionary *userInfo = [notification userInfo];
-    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
-
-    if(artworkData) {
-        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
-        self.sonaView.pointColor = [Kuro getPrimaryColor:artwork];
-    }
-}
-
-- (void) didMoveToSuperview {
-    NSLog(@"[Visualyzer] frame:%@", NSStringFromCGRect(self.frame));
-}
-
+// We are only interested on Carrier
 -(void) setText:(NSString*)arg1 {
     %orig;
-    if([arg1 containsString:@":"]){
-        self.iAmTime = YES;
-    } else if (prefHideCarrier && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
+    if (![arg1 containsString:@":"] && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
         self.iAmCarrier = YES;
     }
-
-}
-
--(void) setTextColor:(UIColor *)textColor {
-    %orig;
-    if(!self.iAmTime) return;
-
-    if(self.sonaView && !prefUseArtworkColor) self.sonaView.pointColor = textColor;
 }
 
 %new
--(void) startVisualyzer {
-
-    if(self.iAmTime) {
-
-        // We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
-        // So bars view would never appear
-        if(!self.sonaView) {
-            self.sonaView = [Utils initializeVisualyzerWithParent:self];
-            [self.superview addSubview:self.sonaView];
-            
-            // Add tap gesture
-            if(prefIsSingleTapEnabled) {
-                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
-                [self.sonaView addGestureRecognizer:tap];
-            }
-
-            // Add tap gesture
-            if(prefIsLongTapEnabled) {
-                UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
-                [self.sonaView addGestureRecognizer:longTap];
-            }
-        }
-
-        // Hide View
-        [self setHidden:YES];
-
-        // Show Visualyzer and start it
-        [self.sonaView setHidden:NO];
-        [self.sonaView start];
-
-    } else if(self.iAmCarrier) {
-        [self setHidden:YES];
-    }
-
+- (void) hide {
+    if(self.iAmCarrier) self.hidden = YES;
 }
 
 %new
--(void) stopVisualyzer {
-
-    if(self.iAmTime) {
-        [self setHidden:NO];
-        [self.sonaView setHidden:YES];
-
-        [self.sonaView stop];
-
-    } else if(self.iAmCarrier) {
-        [self setHidden:NO];
-    }
+- (void) unhide {
+    if(self.iAmCarrier) self.hidden = NO;
 }
-
-
-// Probably I do need to delete this methods, because are almost pretty useless
-
-// Used when the screen is now ON, and we want to resume
-%new
--(void) resumeVisualyzer {
-    if(!self.iAmTime) return;
-
-    // [self.sonaView resume];
-}
-
-
-// Used when the screen is now OFF, and we want to pause
-%new
--(void) pauseVisualyzer {
-    if(!self.iAmTime) return;
-
-    // [self.sonaView pause];
-}
-
 %end
 %end
 
 
-/***********************************
- * SIGNAL VIEW
-************************************/
-
-%group SignalView
-%hook _UIStatusBarCellularSignalView
-
+/*----------------------
+ |  Visualyzer on Time
+ -----------------------*/
+%group PlaceOnTime
+%hook _UIStatusBarStringView
 %property(nonatomic, retain) SonaView *sonaView;
+%property(nonatomic) BOOL iAmTime;
 
--(id) initWithFrame:(CGRect)frame {
-
+- (id) initWithFrame:(CGRect)frame {
     id orig = %orig;
-    NSLog(@"[Visualyzer] location: %@", location);
+    self.iAmTime = NO;
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startVisualyzer) name:@"visualyzerIsPlaying" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVisualyzer) name:@"visualyzerIsNotPlaying" object:nil];
-
-
-    // Play/pause because of screen backlight
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resumeVisualyzer) name:@"visualyzerBacklightIsOn" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseVisualyzer) name:@"visualyzerBacklightIsOff" object:nil];
-
-    // Artwork colouring
-    if(prefUseArtworkColor) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateArtworkColor:) name:@"visualyzerArtworkChanged" object:nil];
-    }
+    // Method to start our Sona view
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initVisualyzer) name:vizStartPlaying object:nil];
 
     return orig;
 }
 
-%new
-- (void) updateArtworkColor:(NSNotification *)notification {
-    NSDictionary *userInfo = [notification userInfo];
-    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
 
-    if(artworkData) {
-        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
-        self.sonaView.pointColor = [Kuro getPrimaryColor:artwork];
-    }
-}
-
--(void)_colorsDidChange {
+// We are only interested in time
+-(void) setText:(NSString*)arg1 {
     %orig;
-
-    if(self.sonaView && !prefUseArtworkColor) {
-        UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
-        self.sonaView.pointColor = color;
-    }
-
+    if([arg1 containsString:@":"]) self.iAmTime = YES;
 }
 
-%new
--(void) startVisualyzer {
+// Set user system color
+-(void) setTextColor:(UIColor *)textColor {
+    %orig;
+    if(self.sonaView && self.iAmTime) {
+        self.sonaView.pointColor = textColor;
+        if(!prefUseArtworkColor) self.sonaView.pointColor = textColor;
+    }
+}
 
-    // We can't create Bars at initWithFrame, because it doesn't have the same frame and bounds
-    // So bars view would never appear
-    if(!self.sonaView) {
+
+%new
+- (void) initVisualyzer {
+   if(self.iAmTime) {
+
+        // Create our sona view using prefs
         self.sonaView = [Utils initializeVisualyzerWithParent:self];
         [self.superview addSubview:self.sonaView];
-
+        
         // Add tap gesture
         if(prefIsSingleTapEnabled) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
             [self.sonaView addGestureRecognizer:tap];
         }
 
-        // Add tap gesture
+        // Add long tap gesture
         if(prefIsLongTapEnabled) {
             UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
             [self.sonaView addGestureRecognizer:longTap];
         }
+
+        // Start it
+        [self.sonaView start];
+
+        // Stop receiving notifications from this view
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:vizStartPlaying object:nil];
+
+        // Add play/stop notification to our view
+        [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(start) name:vizStartPlaying object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(stop) name:vizStopPlaying object:nil];
+
+        // Add resume/pause notification
+        [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(resume) name:vizResume object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(pause) name:vizPause object:nil];
+
+        if(prefUseArtworkColor) [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setArtworkColor:) name:vizNewPlayingInfo object:nil];
+   } 
+}
+
+%new
+- (void) setArtworkColor:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
+
+    if(artworkData) {
+        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
+        self.sonaView.pointSecondaryColor = [Kuro getPrimaryColor:artwork];
+    }
+}
+
+%end
+%end
+
+/*-----------------------------
+ |  Visualyzer on Cellular bars
+ ------------------------------*/
+%group PlaceOnCellularBars
+%hook _UIStatusBarCellularSignalView
+%property(nonatomic, retain) SonaView *sonaView;
+
+- (id) initWithFrame:(CGRect)frame {
+    id orig = %orig;
+
+    // Method to start our Sona view
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initVisualyzer) name:vizStartPlaying object:nil];
+
+    return orig;
+}
+
+// Set user system color
+-(void)_colorsDidChange {
+    %orig;
+
+    if(self.sonaView) {
+        UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
+        self.sonaView.pointColor = color;
+    }
+}
+
+%new
+- (void) initVisualyzer {
+
+    // Create our sona view using prefs
+    self.sonaView = [Utils initializeVisualyzerWithParent:self];
+    [self.superview addSubview:self.sonaView];
+    
+    // Add tap gesture
+    if(prefIsSingleTapEnabled) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(hideAndShowParentFor2Sec)];
+        [self.sonaView addGestureRecognizer:tap];
     }
 
-    // Hide View
-    [self setHidden:YES];
+    // Add long tap gesture
+    if(prefIsLongTapEnabled) {
+        UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self.sonaView action:@selector(openCurrentPlayingApp)];
+        [self.sonaView addGestureRecognizer:longTap];
+    }
 
-    // Show Visualyzer and start it
-    [self.sonaView setHidden:NO];
+    // Start it
     [self.sonaView start];
+
+    // Stop receiving notifications from this view
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:vizStartPlaying object:nil];
+
+    // Add play/stop notification to our view
+    [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(start) name:vizStartPlaying object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(stop) name:vizStopPlaying object:nil];
+
+    // Add resume/pause notification
+    [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(resume) name:vizResume object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self.sonaView selector:@selector(pause) name:vizPause object:nil];
+
+    if(prefUseArtworkColor) [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setArtworkColor:) name:vizNewPlayingInfo object:nil];
 }
 
 %new
--(void) stopVisualyzer {
+- (void) setArtworkColor:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSData *artworkData = [userInfo objectForKey:(__bridge NSString *)kMRMediaRemoteNowPlayingInfoArtworkData];
 
-    [self setHidden:NO];
-    [self.sonaView setHidden:YES];
-
-    [self.sonaView stop];
-}
-
-
-// Probably I do need to delete this methods, because are almost pretty useless
-
-// Used when the screen is now ON, and we want to resume
-%new
--(void) resumeVisualyzer {
-    // [self.sonaView resume];
-}
-
-
-// Used when the screen is now OFF, and we want to pause
-%new
--(void) pauseVisualyzer {
-    // [self.sonaView pause];
+    if(artworkData) {
+        UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
+        self.sonaView.pointSecondaryColor = [Kuro getPrimaryColor:artwork];
+    }
 }
 
 %end
 %end
+
 
 %ctor {
 
@@ -326,6 +260,9 @@
     
     [preferences registerBool:&isEnabled default:NO forKey:@"isEnabled"];
     if(!isEnabled) return;
+
+    // Location
+    [preferences registerObject:&location default:@"1" forKey:@"location"];
 
     // Style
     [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
@@ -348,19 +285,23 @@
     [preferences registerObject:&prefAirpodsBoost default:@"1.0" forKey:@"airpodsBoost"];
     [preferences registerObject:&prefUpdatesPerSecond default:@"10.0" forKey:@"updatesPerSecond"];
 
+    // Miscellaneous
     [preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
 
     // Gestures
     [preferences registerBool:&prefIsSingleTapEnabled default:YES forKey:@"isSingleTapEnabled"];
     [preferences registerBool:&prefIsLongTapEnabled default:YES forKey:@"isLongTapEnabled"];
 
-    // Location
-    [preferences registerObject:&location default:@"1" forKey:@"location"];
 
     %init;
+
+    // Notifications
+    if(prefUseArtworkColor) %init(ArtworkColorNotification);
+    if(prefHideCarrier) %init(HideCarrier);
+
     if([location intValue] == clockLocation){
-        %init(ClockView);   
+        %init(PlaceOnTime);   
     } else if ([location intValue] == signalLocation) {
-        %init(SignalView);
+        %init(PlaceOnCellularBars);
     }
 }

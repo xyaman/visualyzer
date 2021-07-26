@@ -8,7 +8,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other Options</string>
+			<string>Hide options</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -16,11 +16,29 @@
 			<key>default</key>
 			<false/>
 			<key>label</key>
-			<string>Hide Carrier</string>
+			<string>Hide carrier when playing</string>
 			<key>key</key>
 			<string>hideCarrier</string>
 			<key>defaults</key>
 			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>label</key>
+			<string>Hide Visualyzer on lockscreen</string>
+			<key>key</key>
+			<string>hideOnLockscreen</string>
+			<key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Other Options</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -51,25 +69,23 @@
 			<string>Updates per second</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>10.0</real>
-			<key>min</key>
-			<real>0</real>
-			<key>max</key>
-			<real>20</real>
-			<key>isSegmented</key>
-			<true/>
-			<key>segmentCount</key>
-			<integer>20</integer>
-			<key>showValue</key>
-			<true/>
-			<key>key</key>
-			<string>updatesPerSecond</string>
-			<key>defaults</key>
-			<string>com.xyaman.visualyzerpreferences</string>
-		</dict>
+		    <key>cellClass</key>
+		    <string>HBStepperTableCell</string>
+		    <key>default</key>
+		    <real>4</real>
+		    <key>label</key>
+		    <string>Updates per second: %i</string>
+		    <key>singularLabel</key>
+		    <string>Updates per second: %i</string>
+		    <key>max</key>
+		    <real>20</real>
+		    <key>min</key>
+		    <real>0</real>
+		    <key>key</key>
+		    <string>updatesPerSecond</string>
+		    <key>defaults</key>
+			<string>com.xyaman.visualyzerpreferences</string>	
+		</dict>	
 	</array>
 	<key>title</key>
 	<string>Miscellaneous</string>
