@@ -95,7 +95,7 @@
  -----------------------*/
 %group PlaceOnTime
 %hook _UIStatusBarStringView
-%property(nonatomic, retain) SonaView *sonaView;
+%property(nonatomic, retain) SNAView *sonaView;
 %property(nonatomic) BOOL iAmTime;
 
 - (id) initWithFrame:(CGRect)frame {
@@ -106,6 +106,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initVisualyzer) name:vizStartPlaying object:nil];
 
     return orig;
+}
+
+- (void) setFrame:(CGRect)frame {
+    %orig;
+
+    if(!self.iAmTime || !self.sonaView) return;
+
+    self.sonaView.frame = self.frame;
+    [self.sonaView renderPoints];
 }
 
 
@@ -120,7 +129,7 @@
     %orig;
     if(self.sonaView && self.iAmTime) {
         self.sonaView.pointColor = textColor;
-        if(!prefUseArtworkColor) self.sonaView.pointColor = textColor;
+        [self.sonaView updateColors];
     }
 }
 
@@ -180,6 +189,7 @@
     if(artworkData) {
         UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
         self.sonaView.pointSecondaryColor = [Kuro getPrimaryColor:artwork];
+        [self.sonaView updateColors];
     }
 }
 
@@ -191,7 +201,7 @@
  ------------------------------*/
 %group PlaceOnCellularBars
 %hook _UIStatusBarCellularSignalView
-%property(nonatomic, retain) SonaView *sonaView;
+%property(nonatomic, retain) SNAView *sonaView;
 
 - (id) initWithFrame:(CGRect)frame {
     id orig = %orig;
@@ -202,6 +212,15 @@
     return orig;
 }
 
+- (void) setFrame:(CGRect)frame {
+    %orig;
+
+    if(!self.sonaView) return;
+
+    self.sonaView.frame = self.frame;
+    [self.sonaView renderPoints];
+}
+
 // Set user system color
 -(void)_colorsDidChange {
     %orig;
@@ -209,6 +228,7 @@
     if(self.sonaView) {
         UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
         self.sonaView.pointColor = color;
+        [self.sonaView updateColors];
     }
 }
 
@@ -266,6 +286,7 @@
     if(artworkData) {
         UIImage *artwork = [UIImage imageWithData:artworkData]; // TODO: Check if artwork can be null
         self.sonaView.pointSecondaryColor = [Kuro getPrimaryColor:artwork];
+        [self.sonaView updateColors];
     }
 }
 
@@ -285,6 +306,7 @@
 
     // Style
     [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
+    [preferences registerObject:&prefColoringStyle default:@"2" forKey:@"coloringStyle"]; // Number of bars/points/etc
     [preferences registerBool:&prefUseArtworkColor default:NO forKey:@"useArtworkColor"];
 
     // Bars

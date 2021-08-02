@@ -2,15 +2,16 @@
 #import <Cephei/HBPreferences.h>
 #import <MediaRemote/MediaRemote.h>
 
-#import <Sona/SonaView.h>
-#import <Sona/SonaBarsView.h>
-#import <Sona/SonaWaveView.h>
+#import <Sona/SNAView.h>
+#import <Sona/SNABarsView.h>
+#import <Sona/SNAWaveView.h>
 #import <Kuro/libKuro.h>
 
 // Preferences
 HBPreferences *preferences = nil;
 BOOL isEnabled = NO;
 NSString *prefVizStyle = nil;
+NSString *prefColoringStyle = nil;
 BOOL prefUseArtworkColor = nil;
 
 NSNumber *location = nil;
@@ -81,12 +82,12 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
 @interface _UIStatusBarStringView : UIView
 @property(nonatomic) BOOL iAmTime;
 @property(nonatomic) BOOL iAmCarrier;
-@property(nonatomic, retain) SonaView *sonaView;
+@property(nonatomic, retain) SNAView *sonaView;
 @end
 
 // Cellular
 @interface _UIStatusBarCellularSignalView : UIView
-@property(nonatomic, retain) SonaView *sonaView;
+@property(nonatomic, retain) SNAView *sonaView;
 @end
 
 
@@ -94,17 +95,17 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
  | Utils
  -----------------------*/
 @interface Utils : NSObject
-+ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent;
++ (SNAView *) initializeVisualyzerWithParent:(UIView *)parent;
 @end
 
 @implementation Utils
-+ (SonaView *) initializeVisualyzerWithParent:(UIView *)parent {
++ (SNAView *) initializeVisualyzerWithParent:(UIView *)parent {
 
-    SonaView *sonaView;
+    SNAView *sonaView;
 
     switch([prefVizStyle intValue]) {
         case 1:
-            sonaView = [[SonaBarsView alloc] initWithFrame:parent.frame];
+            sonaView = [[SNABarsView alloc] initWithFrame:parent.frame];
             sonaView.pointNumber = [prefBarsNumber intValue];
             sonaView.pointWidth = [prefBarsWidth floatValue];
             sonaView.pointSpacing = [prefBarsSpacing floatValue];
@@ -114,16 +115,17 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
             break;
 
         case 2:
-            sonaView = [[SonaWaveView alloc] initWithFrame:parent.frame];
+            sonaView = [[SNAWaveView alloc] initWithFrame:parent.frame];
             sonaView.pointNumber = [prefWaveNumber intValue];
             sonaView.pointSensitivity = [prefWaveSensitivity floatValue];
             sonaView.xOffset = [prefWaveXOffset floatValue];
             sonaView.yOffset = [prefWaveYOffset floatValue];
-            [(SonaWaveView*)sonaView setOnlyLine:prefOnlyLine]; 
-            [[(SonaWaveView*)sonaView shapeLayer] setLineWidth:[prefWaveStrokeWidth floatValue]]; 
+            [(SNAWaveView*)sonaView setOnlyLine:prefOnlyLine]; 
+            [[(SNAWaveView*)sonaView shapeLayer] setLineWidth:[prefWaveStrokeWidth floatValue]]; 
             break;
     }
 
+    sonaView.coloringStyle = [prefColoringStyle intValue];
     sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];
     sonaView.refreshRateInSeconds = (1.0f / [prefUpdatesPerSecond floatValue]);
     sonaView.parent = parent;
