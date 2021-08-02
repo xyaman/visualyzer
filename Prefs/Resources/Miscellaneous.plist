@@ -51,12 +51,6 @@
 			<string>com.xyaman.visualyzerpreferences</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>Updates per second</string>
-		</dict>
-		<dict>
 		    <key>cellClass</key>
 		    <string>HBStepperTableCell</string>
 		    <key>default</key>
