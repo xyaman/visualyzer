@@ -72,8 +72,9 @@
 // We are only interested on Carrier
 -(void) setText:(NSString*)arg1 {
     %orig;
-    if (![arg1 containsString:@":"] && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
+    if (!self.iAmCarrier && ![arg1 containsString:@":"] && ![arg1 containsString:@"%"] && ![arg1 containsString:@"2G"] && ![arg1 containsString:@"3G"] && ![arg1 containsString:@"4G"] && ![arg1 containsString:@"5G"] && ![arg1 containsString:@"LTE"] && ![arg1 isEqualToString:@"E"]) {
         self.iAmCarrier = YES;
+        if([[%c(SBMediaController) sharedInstance] isPlaying]) self.hidden = YES;
     }
 }
 

@@ -62,6 +62,7 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
  |  Class definitions
  -----------------------*/
 @interface SBMediaController : NSObject
++ (id) sharedInstance;
 - (void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 ;
 - (BOOL) isPlaying;
 @end
