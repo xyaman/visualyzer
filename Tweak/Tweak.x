@@ -128,7 +128,8 @@
 // Set user system color
 -(void) setTextColor:(UIColor *)textColor {
     %orig;
-    if(self.sonaView && self.iAmTime) {
+    // Only update if we don't use custom color
+    if(self.sonaView && self.iAmTime && !prefUseCustomPrimaryColor) {
         self.sonaView.pointColor = textColor;
         [self.sonaView updateColors];
     }
@@ -158,6 +159,9 @@
 
         // Start it
         [self.sonaView start];
+
+        // Update colors if we use custom
+        if(prefUseCustomPrimaryColor || prefUseCustomSecondaryColor) [self.sonaView updateColors];
 
         // Stop receiving notifications from this view
         [[NSNotificationCenter defaultCenter] removeObserver:self name:vizStartPlaying object:nil];
@@ -226,7 +230,7 @@
 -(void)_colorsDidChange {
     %orig;
 
-    if(self.sonaView) {
+    if(self.sonaView && !prefUseCustomPrimaryColor) {
         UIColor *color = [[UIColor alloc] initWithCGColor:self.layer.sublayers[0].backgroundColor];
         self.sonaView.pointColor = color;
         [self.sonaView updateColors];
@@ -256,6 +260,9 @@
 
     // Start it
     [self.sonaView start];
+    
+    // Update colors if we use custom ones
+    if(prefUseCustomPrimaryColor || prefUseCustomSecondaryColor) [self.sonaView updateColors];
 
     // Stop receiving notifications from this view
     [[NSNotificationCenter defaultCenter] removeObserver:self name:vizStartPlaying object:nil];
@@ -307,8 +314,12 @@
 
     // Style
     [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
-    [preferences registerObject:&prefColoringStyle default:@"2" forKey:@"coloringStyle"]; // Number of bars/points/etc
+    [preferences registerObject:&prefColoringStyle default:@"2" forKey:@"coloringStyle"];
     [preferences registerBool:&prefUseArtworkColor default:NO forKey:@"useArtworkColor"];
+    [preferences registerBool:&prefUseCustomPrimaryColor default:NO forKey:@"useCustomPrimaryColor"];
+    [preferences registerBool:&prefUseCustomSecondaryColor default:NO forKey:@"useCustomSecondaryColor"];
+    [preferences registerObject:&prefPrimaryCustomColor default:@"000000" forKey:@"primaryCustomColor"];
+    [preferences registerObject:&prefSecondaryCustomColor default:@"000000" forKey:@"secondaryCustomColor"];
 
     // Bars
     [preferences registerObject:&prefBarsNumber default:@"4" forKey:@"barsNumber"];

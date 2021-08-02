@@ -6,18 +6,27 @@
 #import <Sona/SNABarsView.h>
 #import <Sona/SNAWaveView.h>
 #import <Kuro/libKuro.h>
+#import <GcUniversal/GcColorPickerUtils.h>
 
 // Preferences
 HBPreferences *preferences = nil;
+
+// General
 BOOL isEnabled = NO;
 NSString *prefVizStyle = nil;
-NSString *prefColoringStyle = nil;
-BOOL prefUseArtworkColor = nil;
 
+// Location (positioning)
 NSNumber *location = nil;
 int clockLocation = 1;
 int signalLocation = 2;
-int batteryLocation = 3;
+
+// Coloring
+BOOL prefUseArtworkColor = nil;
+NSString *prefColoringStyle = nil;
+BOOL prefUseCustomPrimaryColor = nil;
+NSString *prefPrimaryCustomColor = nil;
+BOOL prefUseCustomSecondaryColor = nil;
+NSString *prefSecondaryCustomColor = nil;
 
 // Bars Related
 NSString *prefBarsNumber = nil;
@@ -125,6 +134,9 @@ NSString *vizNewPlayingInfo = @"visualyzerNewPlayingInfo";
             [[(SNAWaveView*)sonaView shapeLayer] setLineWidth:[prefWaveStrokeWidth floatValue]]; 
             break;
     }
+
+    if(prefUseCustomPrimaryColor) sonaView.pointColor = [GcColorPickerUtils colorWithHex:prefPrimaryCustomColor];
+    if(prefUseCustomSecondaryColor) sonaView.pointSecondaryColor = [GcColorPickerUtils colorWithHex:prefSecondaryCustomColor];
 
     sonaView.coloringStyle = [prefColoringStyle intValue];
     sonaView.pointAirpodsBoost = [prefAirpodsBoost floatValue];

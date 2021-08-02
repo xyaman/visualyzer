@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>items</key>
+    <array>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Coloring style</string>
+            <key>footerText</key>
+            <string>Only works when using a secondary color (or artwork coloring)</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSegmentCell</string>
+            <key>validValues</key>
+            <array>
+                <integer>0</integer>
+                <integer>1</integer>
+                <integer>2</integer>
+            </array>
+            <key>validTitles</key>  
+            <array>
+                <string>Full</string>
+                <string>Solid</string>
+                <string>Gradient</string>
+            </array>
+            <key>default</key>
+            <integer>1</integer>
+            <key>key</key>
+            <string>coloringStyle</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <!-- Artwork coloring -->
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Changes secondary color</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>label</key>
+            <string>Use song artwork color</string>
+            <key>key</key>
+            <string>useArtworkColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Use custom primary color</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>label</key>
+            <string>Enabled</string>
+            <key>key</key>
+            <string>useCustomPrimaryColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSLinkCell</string>
+            <key>cellClass</key>
+            <string>GcColorPickerCell</string>
+            <key>label</key>
+            <string>Primary Color</string>
+            <key>fallback</key>
+            <string>000000</string>
+            <key>key</key>
+            <string>primaryCustomColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Use custom primary color</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>label</key>
+            <string>Enabled</string>
+            <key>key</key>
+            <string>useCustomSecondaryColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSLinkCell</string>
+            <key>cellClass</key>
+            <string>GcColorPickerCell</string>
+            <key>label</key>
+            <string>Secondary Color</string>
+            <key>fallback</key>
+            <string>000000</string>
+            <key>key</key>
+            <string>secondaryCustomColor</string>
+            <key>defaults</key>
+            <string>com.xyaman.visualyzerpreferences</string>
+        </dict>
+    </array>
+    <key>title</key>
+    <string>Coloring</string>
+</dict>
+</plist>
