@@ -314,7 +314,7 @@
 
     // Style
     [preferences registerObject:&prefVizStyle default:@"1" forKey:@"vizStyle"]; // Number of bars/points/etc
-    [preferences registerObject:&prefColoringStyle default:@"2" forKey:@"coloringStyle"];
+    [preferences registerObject:&prefColoringStyle default:@"1" forKey:@"coloringStyle"];
     [preferences registerBool:&prefUseArtworkColor default:NO forKey:@"useArtworkColor"];
     [preferences registerBool:&prefUseCustomPrimaryColor default:NO forKey:@"useCustomPrimaryColor"];
     [preferences registerBool:&prefUseCustomSecondaryColor default:NO forKey:@"useCustomSecondaryColor"];
