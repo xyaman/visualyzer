@@ -1,6 +1,6 @@
 Package: com.xyaman.visualyzer
 Name: Visualyzer
-Version: 0.3.0
+Version: 0.3.1
 Architecture: iphoneos-arm
 Description: Simple status bar audio visualizer.
 Maintainer: Xyaman

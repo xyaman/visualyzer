@@ -109,14 +109,14 @@
     return orig;
 }
 
-- (void) setFrame:(CGRect)frame {
-    %orig;
+// - (void) setFrame:(CGRect)frame {
+//     %orig;
 
-    if(!self.iAmTime || !self.sonaView) return;
+//     if(!self.iAmTime || !self.sonaView) return;
 
-    self.sonaView.frame = self.frame;
-    [self.sonaView renderPoints];
-}
+//     self.sonaView.frame = self.frame;
+//     [self.sonaView renderPoints];
+// }
 
 
 // We are only interested in time
@@ -217,14 +217,14 @@
     return orig;
 }
 
-- (void) setFrame:(CGRect)frame {
-    %orig;
+// - (void) setFrame:(CGRect)frame {
+//     %orig;
 
-    if(!self.sonaView) return;
+//     if(!self.sonaView) return;
 
-    self.sonaView.frame = self.frame;
-    [self.sonaView renderPoints];
-}
+//     self.sonaView.frame = self.frame;
+//     [self.sonaView renderPoints];
+// }
 
 // Set user system color
 -(void)_colorsDidChange {
