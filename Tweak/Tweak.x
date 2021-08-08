@@ -4,6 +4,22 @@
  |  Notifications
  -----------------------*/
 
+%group HideOnNotificationCenter
+%hook CSCoverSheetViewController
+- (void)viewWillAppear:(BOOL)animated {
+    %orig;
+    [[NSNotificationCenter defaultCenter] postNotificationName:vizPause object:nil]; 
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    %orig;
+
+   [[NSNotificationCenter defaultCenter] postNotificationName:vizResume object:nil]; 
+}
+
+%end
+%end
+
 // Sends the notification when the device starts playing music
 %hook SBMediaController
 -(void)_mediaRemoteNowPlayingApplicationIsPlayingDidChange:(id)arg1 {
@@ -39,6 +55,7 @@
 
 
 // Sends the notification when the phone's screen if OFF or ON
+%group PauseWhenOff
 %hook SBBacklightController
 -(void)setBacklightFactorPending:(float)value {
     %orig;
@@ -50,6 +67,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:vizPause object:nil];
     }
 }
+%end
 %end
 
 /*----------------------
@@ -343,6 +361,7 @@
 
     // Miscellaneous
     [preferences registerBool:&prefHideCarrier default:NO forKey:@"hideCarrier"];
+    [preferences registerBool:&prefHideOnNotificationCenter default:NO forKey:@"hideOnNotificationCenter"];
 
     // Gestures
     [preferences registerBool:&prefIsSingleTapEnabled default:YES forKey:@"isSingleTapEnabled"];
@@ -350,6 +369,10 @@
 
 
     %init;
+
+    // Stopping
+    if(prefHideOnNotificationCenter) %init(HideOnNotificationCenter);
+    else  %init(PauseWhenOff);
 
     // Notifications
     if(prefUseArtworkColor) %init(ArtworkColorNotification);

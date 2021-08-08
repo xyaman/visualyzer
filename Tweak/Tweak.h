@@ -54,6 +54,7 @@ BOOL prefIsLongTapEnabled = YES;
 
 // Miscellaneous
 BOOL prefHideCarrier = NO;
+BOOL prefHideOnNotificationCenter = NO;
 
 /*----------------------
  |  Notifications constants
